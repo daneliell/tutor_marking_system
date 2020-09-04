@@ -2,7 +2,7 @@
 
 ### Assessment 1
 
-Project Plan & Analysis of Alternatives google docs:
+Project Plan, Risk Register & Analysis of Alternatives google docs:
 https://docs.google.com/document/d/1YLdib-HQBVhbVxQrBuXltBP1p0c65o7lkGx97BrnXtY/edit
 
 ### Group Resources
