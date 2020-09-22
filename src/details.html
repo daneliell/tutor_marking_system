@@ -28,7 +28,7 @@
     </div>
     <!-- Tabs -->
     <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Task 1</a>
+      <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tasks Log</a>
       <a href="#scroll-tab-comments" class="mdl-layout__tab">Comments</a>
       <a href="#scroll-tab-graph" class="mdl-layout__tab">Graph</a>
       
@@ -38,7 +38,7 @@
     <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
       <div class="page-content">
 						<center>
-              <h2> Task 1 </h2>
+              
 						<div class="mdl-cell mdl-cell--8-col">
 					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
 						<div class="mdl-card__title1">
@@ -55,6 +55,13 @@
                   <label class="mdl-textfield__label" for="namelist">Member Name</label>
                 </div>
                 
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <select class="mdl-textfield__input" id="taskslist" required>
+                    <!--options here: I want this to be dynamic from what I received from project creation-->
+                  </select>
+                  <label class="mdl-textfield__label" for="taskslist">Task</label>
+                </div>
+
                 <h5>% Contributed for This Session</h5>
                 <!-- Default Slider -->
                 <div class="mdl-cell mdl-cell--6-col"> 
@@ -73,6 +80,7 @@
                       <span class="mdl-textfield__error">Input is not a number!</span>
                     </div>
                   </form></div>
+                  <br><br><br>
                   <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" id="submit_progress">
                     Submit
                   </button>
@@ -85,48 +93,11 @@
                     <div class="mdl-grid"><div class="mdl-cell mdl-cell--12-col">
                       <h4 style="font-weight: bold;">Progress History</h4></div>
                       
-                      <div class="mdl-cell mdl-cell--12-col">
-                      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                        <thead>
-                          <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Time</th>
-                            <th class="mdl-data-table__cell--non-numeric">Student</th>
-                            <th>Progress (%)</th>
-                            <th>Time Spent (hours)</th>
-                          </tr>
-                        </thead>
-                        <tbody id="current_table">
-                          <!--Only submitted members appear here-->
-                          <tr>
-                            
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <br><br>
-
-                        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                          <thead>
-                            <tr>
-                              <th class="mdl-data-table__cell">No. of Persons Contributed</th>
-                              <th>Total Progress (%)</th>
-                              <th>Total Time Spent (hours)</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td id="persons_contributed">0</td>
-                              <td id="total_progress"></td>
-                              <td id="total_time">0</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                      <div class="mdl-cell mdl-cell--12-col" id="tables_area">
                         
                 </div>
                       
                 </div></div></div></div>
 
-    </section>
-      
   </main>
 </div>
