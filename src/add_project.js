@@ -36,7 +36,7 @@ function add_local(details)
   projects_list.push(details);
   if(typeof(Storage) !== "undefined")
   {
-  	localStorage.setItem("PROJECTS",JSON.stringify(details));
+  	localStorage.setItem("PROJECTS",JSON.stringify(projects_list));
   }
   else
   {
