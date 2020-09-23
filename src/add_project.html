@@ -50,6 +50,7 @@
 							</form>
 
 							<h4 style= "font-size: 22;"> Unit Name </h4>
+							<!-- Simple Textfield -->
 							<form action="#">
 							  <div class="mdl-textfield mdl-js-textfield">
 							    <input class="mdl-textfield__input" type="text" id="unit_name">
@@ -58,6 +59,7 @@
 							</form>
 
 							<h4 style= "font-size: 22;"> Due Date </h4>
+							<!-- Simple Textfield -->
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield has-placeholder">
 								<input class="mdl-textfield__input" type="date" id="due_date"></input>
 								<label class="mdl-textfield__label" for="departureDate">Due Date</label>
@@ -67,6 +69,7 @@
 
 						<div class="mdl-cell mdl-cell--6-col">
 							<h4 style= "font-size: 22;"> Team Members </h4>
+							<!-- Simple Textfield -->
 							<form action="#">
 								<div class="mdl-textfield mdl-js-textfield">
 								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" ></textarea>
@@ -75,21 +78,25 @@
 							</form>
 
 							<h4 style= "font-size: 22;"> Tasks </h4>
+							<!-- Simple Textfield -->
 							<form action="#">
 							  <div class="mdl-textfield mdl-js-textfield">
-									<textarea class="mdl-textfield__input" type="text" rows= "3" id="members" ></textarea>
+									<textarea class="mdl-textfield__input" type="text" rows= "3" id="tasks" ></textarea>
 									<label class="mdl-textfield__label" for="sample5">Tasks (separated by comma)</label>
 							  </div>
 							</form>
 
-							<!-- Flat button with ripple -->
-							<button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="location.href='projects.html'">
-							  Back
+							<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
+								Back
 							</button>
-							&nbsp &nbsp &nbsp &nbsp
-							<button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="location.href='projects.html'">
+							&nbsp; &nbsp; &nbsp; &nbsp;
+							<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" onclick="create_project()">
 							  Create
 							</button>
+						</div>
+						<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar" style = "width:700px">
+							<div class="mdl-snackbar__text"></div>
+							<button type="button" class="mdl-snackbar__action"></button>
 						</div>
 
 						</div>

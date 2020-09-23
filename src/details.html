@@ -31,14 +31,14 @@
       <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tasks Log</a>
       <a href="#scroll-tab-comments" class="mdl-layout__tab">Comments</a>
       <a href="#scroll-tab-graph" class="mdl-layout__tab">Graph</a>
-      
+
     </div>
   </header>
   <main class="mdl-layout__content">
     <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
       <div class="page-content">
 						<center>
-              
+
 						<div class="mdl-cell mdl-cell--8-col">
 					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
 						<div class="mdl-card__title1">
@@ -47,14 +47,14 @@
 							<div class="mdl-cell mdl-cell--12-col">
                 <h4 style="font-weight: bold;">Add Progress</h4></div>
 							<div class="mdl-cell mdl-cell--6-col">
-              
+
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <select class="mdl-textfield__input" id="namelist" required>
                     <!--options here: I want this to be dynamic from what I received from project creation-->
                   </select>
                   <label class="mdl-textfield__label" for="namelist">Member Name</label>
                 </div>
-                
+
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <select class="mdl-textfield__input" id="taskslist" required>
                     <!--options here: I want this to be dynamic from what I received from project creation-->
@@ -64,7 +64,7 @@
 
                 <h5>% Contributed for This Session</h5>
                 <!-- Default Slider -->
-                <div class="mdl-cell mdl-cell--6-col"> 
+                <div class="mdl-cell mdl-cell--6-col">
                   <input id="current_progress" class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="0" tabindex="0" step="5" required>
                 </div>
                 <p id="percent"></p>
@@ -72,7 +72,7 @@
 
                 <div class="mdl-cell mdl-cell--6-col">
                   <h5>Hours Spent for this session</h5>
-                  <div class="mdl-cell mdl-cell--6-col"> 
+                  <div class="mdl-cell mdl-cell--6-col">
                   <form action="#">
                     <div class="mdl-textfield mdl-js-textfield">
                       <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="hours" required>
@@ -81,7 +81,7 @@
                     </div>
                   </form></div>
                   <br><br><br>
-                  <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" id="submit_progress">
+                  <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" id="submit_progress" onclick="document.location.reload()">
                     Submit
                   </button>
                 </div></div></div></div>
@@ -92,11 +92,11 @@
                     </div>
                     <div class="mdl-grid"><div class="mdl-cell mdl-cell--12-col">
                       <h4 style="font-weight: bold;">Progress History</h4></div>
-                      
+
                       <div class="mdl-cell mdl-cell--12-col" id="tables_area">
-                        
+
                 </div>
-                      
+
                 </div></div></div></div>
 
   </main>
