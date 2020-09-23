@@ -1,5 +1,9 @@
 var app_fireBase = {};
 
+/**
+ * Self contained function that initialize the firebase
+ * To invoke the firebase, use app_firebase in your js
+ */
 (function(){
 
     var firebaseConfig = {

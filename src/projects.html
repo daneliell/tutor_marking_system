@@ -13,11 +13,24 @@
         <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
         <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        
+        <!--BELOW IS TO INITIALIZE FIREBASE @david-->
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-firestore.js"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+        <!--This script initialize firebase-->
+        <script src="js/fireBase.js"></script>
+        <!--This script track user-->
+        <script src="js/track_user.js"></script>
 
 		<!-- Always shows a header, even in smaller screens. -->
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		  <header class="mdl-layout__header">
-				<button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='projects.html';">
+				<button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='welcome.html';">
 		      <i class="material-icons">home</i>
 		    </button>
 		    <div class="mdl-layout__header-row">
@@ -25,6 +38,12 @@
 		      <span class="mdl-layout-title">Projects</span>
 		      <!-- Add spacer, to align navigation to the right -->
 		      <div class="mdl-layout-spacer"></div>
+          <!--Display the current user -->
+          <span id="displayUserUI" class="mdl-layout-title">Hello</span>
+          <span>&nbsp;&nbsp;</span>
+          <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+          <i class="material-icons" id="logoutButton">logout</i>
+          </button>
 		    </div>
 		  </header>
 		  <main class="mdl-layout__content">
@@ -91,5 +110,5 @@
             </div>
 		  </main>
 		</div>
-		<script src="projects.js"></script>
+		<script src="js/projects.js"></script>
 </html>

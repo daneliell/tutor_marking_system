@@ -32,7 +32,7 @@
         <!-- Always shows a header, even in smaller screens. -->
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
-                  <button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='projects.html';">
+                  <button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='login.html';">
                 <i class="material-icons">home</i>
               </button>
               <div class="mdl-layout__header-row">
@@ -40,12 +40,14 @@
                 <span class="mdl-layout-title">Welcome</span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
-                <!--Display the current user-->
+
+                <!--Display the current user @david-->
                 <span id="displayUserUI" class="mdl-layout-title">Hello</span>
-                <span></span>
+                <span>&nbsp;&nbsp;</span>
                 <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
                 <i class="material-icons" id="logoutButton">logout</i>
                 </button>
+                
               </div>
             </header>
             <main class="mdl-layout__content">
