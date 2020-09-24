@@ -30,7 +30,31 @@
     <!--This script track user-->
     <script src="js/track_user.js"></script>
 
-		<script src='js/details.js'></script>
+    <style>
+      .chat-width{
+        width:700px;
+    }
+      #chatbox {
+      text-align:middle;
+      margin:0 auto;
+      margin-bottom:25px;
+      padding:10px;
+      background:#fff;
+      height:270px;
+      width:750px;
+      border:1px solid #ACD8F0;
+      overflow:auto; 
+    }
+      #wrapper {
+      margin:0 auto;
+      padding-bottom:25px;
+      background:#EBF4FB;
+      width:800px;
+      border:1px solid #ACD8F0; 
+    }
+    </style>
+
+</head>
 
 <!-- Simple header with scrollable tabs. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -121,6 +145,38 @@
                 </div>
 
                 </div></div></div></div>
+                </section>
+
+                <!--Comments section-->
+    <section class="mdl-layout__tab-panel" id="scroll-tab-comments">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--8-col">
+        <div id= wrapper>
+
+      <!--Chat log-->
+      <div class="mdl-cell mdl-cell--8-col">
+          <div id=chatbox></div>
+      </div>
+
+      <!--inner grid-->
+      <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--10-col">
+      <!--input message-->
+      <form name="message" action="">
+        <input name="usermsg" style = "height:30px" type="text" id="usermsg" size="103" />
+      </form>
+      </div>
+
+      <!--send button-->
+      <div class="mdl-cell mdl-cell--1-col">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Send</button>
+      </div>
+
+      </div>
+
+      </div>
+      </div>  
+   </section>
 
   </main>
 </div>
