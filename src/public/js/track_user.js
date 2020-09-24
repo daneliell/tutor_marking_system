@@ -13,7 +13,7 @@ var mainApp = {};
         }else{
             userId = null;
             // Redirect back to Login page
-            window.location.replace("login.html");
+            window.location.replace("index.html");
         }
     });
 
