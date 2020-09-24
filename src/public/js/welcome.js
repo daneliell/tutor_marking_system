@@ -19,6 +19,7 @@ var mainApp = {};
             userId = null;
             // Redirect back to Login page
             window.location.replace("index.html");
+
         }
     });
 
