@@ -18,11 +18,8 @@ var mainApp = {};
         }else{
             userId = null;
             // Redirect back to Login page
-<<<<<<< HEAD:src/public/js/welcome.js
             window.location.replace("index.html");
-=======
-            window.location.replace("login.html");
->>>>>>> ef4059f3fa7dd6c4f20f3e1af989a42f552d3f33:src/js/track_user.js
+
         }
     });
 
