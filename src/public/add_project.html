@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Add New Project</title>
-	
+
 		<!--getmdl.io-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
@@ -41,7 +41,7 @@
 		      <span class="mdl-layout-title">Add New Project</span>
 		      <!-- Add spacer, to align navigation to the right -->
 			  <div class="mdl-layout-spacer"></div>
-			  
+
 			  <!--Display the current user-->
 			  <span id="displayUserUI" class="mdl-layout-title">Loading</span>
 			  <span>&nbsp;&nbsp;</span>
@@ -67,7 +67,7 @@
 							<!-- Simple Textfield -->
 							<form action="#">
 							  <div class="mdl-textfield mdl-js-textfield">
-							    <input class="mdl-textfield__input" type="text" id="project_name">
+							    <input class="mdl-textfield__input" type="text" id="project_name" required>
 							    <label class="mdl-textfield__label" for="sample3">Project Name</label>
 							  </div>
 							</form>
@@ -76,7 +76,7 @@
 							<!-- Simple Textfield -->
 							<form action="#">
 							  <div class="mdl-textfield mdl-js-textfield">
-							    <input class="mdl-textfield__input" type="text" id="unit_name">
+							    <input class="mdl-textfield__input" type="text" id="unit_name" required>
 							    <label class="mdl-textfield__label" for="sample3">Unit Name</label>
 							  </div>
 							</form>
@@ -86,7 +86,7 @@
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield has-placeholder">
 								<input class="mdl-textfield__input" type="date" id="due_date"></input>
 								<label class="mdl-textfield__label" for="departureDate">Due Date</label>
-								<span class="mdl-textfield__error">Input is not a number!</span>
+								<span class="mdl-textfield__error">Due date must be a future date!</span>
 							</div>
 						</div>
 
@@ -95,7 +95,7 @@
 							<!-- Simple Textfield -->
 							<form action="#">
 								<div class="mdl-textfield mdl-js-textfield">
-								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" ></textarea>
+								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" required></textarea>
 								    <label class="mdl-textfield__label" for="sample5">Usernames (separated by comma)</label>
 							  </div>
 							</form>
@@ -104,17 +104,19 @@
 							<!-- Simple Textfield -->
 							<form action="#">
 							  <div class="mdl-textfield mdl-js-textfield">
-									<textarea class="mdl-textfield__input" type="text" rows= "3" id="tasks" ></textarea>
+									<textarea class="mdl-textfield__input" type="text" rows= "3" id="tasks" required></textarea>
 									<label class="mdl-textfield__label" for="sample5">Tasks (separated by comma)</label>
 							  </div>
 							</form>
 
-							<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
+							<button class="mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
+								<div class="mdc-button__ripple"></div>
 								Back
 							</button>
 							&nbsp; &nbsp; &nbsp; &nbsp;
-							<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" onclick="create_project()">
-							  Create
+							<button class="mdc-button mdc-button--raised" onclick="create_project()" id="create_button" disabled>
+								<div class="mdc-button__ripple"></div>
+								Create
 							</button>
 						</div>
 						<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar" style = "width:700px">
