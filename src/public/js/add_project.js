@@ -1,9 +1,10 @@
 // For storing in local storage. Use database once implemented
-projects_list = [];
+let projects_list = [];
+let valid_members = [];
 
 function enable_button(){
   button = document.getElementById("create_button");
-  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' || document.getElementById("members").value == '' || document.getElementById("tasks").value == '' || due_date.checkValidity() == false)
+  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' ||  document.getElementById("tasks").value == '' || due_date.checkValidity() == false)
   {
     button.disabled = true;
   }
@@ -52,12 +53,23 @@ function create_project(){
   {
     var firestore = firebase.firestore();
 
-    /*let members = details.members.split(",");
-    let valid_members = [];
     let tasks = details.tasks.split(",");
-    let exist = true;
 
-    firestore.collection("students").get().then(function(querySnapshot){
+    let members = [];
+    for (let i = 0; i < valid_members.length; i++){
+      let checked = document.getElementById("list-checkbox-"+i).checked;
+      if (checked == true){
+        members.push(valid_members[i].id);
+        /*firestore.doc("students/" + valid_members[i].id).set({
+          projects: details.project_name + details.unit_name,
+        })*/
+      }
+    }
+    //let members = details.members.split(",");
+    //let valid_members = [];
+    //let exist = true;
+
+    /*firestore.collection("students").get().then(function(querySnapshot){
       querySnapshot.forEach(function(doc){
         valid_members.push(doc.data());
       })
@@ -73,7 +85,7 @@ function create_project(){
       }
     }*/
 
-    /*firestore.doc("projects/" + details.project_name + details.unit_name).set({
+    firestore.doc("projects/" + details.project_name + details.unit_name).set({
       title: details.project_name,
       unit: details.unit_name,
       due_date: details.due_date,
@@ -93,17 +105,7 @@ function create_project(){
       }
     }).catch(function(error){
       console.log("Error");
-    });*/
-
-
-
-    /*projectsRef.doc("Test Project 1FIT2101").delete().then(function() {
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });*/
-
-    /*setTimeout(function(){
-    }, 1000);*/
+    });
   }
 }
 
@@ -139,15 +141,52 @@ window.onload = function(){
   });
 
   var firestore = firebase.firestore();
-  let valid_members = [];
 
   firestore.collection("students").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
       valid_members.push(doc.data());
     })
   }).then(function(){
-    for (let i = 0; i < valid_members; i++){
-      
+    let list = document.getElementById("members");
+    for (let i = 0; i < valid_members.length; i++){
+      /*<li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Student 1
+        </span>
+        <span class="mdl-list__item-secondary-action">
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+            <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" />
+          </label>
+        </span>
+      </li>*/
+
+      let student_name = document.createTextNode(valid_members[i].name);
+
+      let name_span = document.createElement("span");
+      name_span.setAttribute("class", "mdl-list__item-primary-content");
+      name_span.appendChild(student_name);
+
+      let input = document.createElement("input");
+      input.setAttribute("id", "list-checkbox-"+i);
+      input.setAttribute("class", "mdl-checkbox__input");
+      input.setAttribute("type", "checkbox");
+
+      let label = document.createElement("label");
+      label.setAttribute("class", "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect")
+      label.setAttribute("for", "list-checkbox-"+i);
+      label.appendChild(input);
+
+      let check_span = document.createElement("span");
+      check_span.setAttribute("class", "mdl-list__item-secondary-action");
+      check_span.appendChild(label);
+
+      let list_item = document.createElement("li");
+      list_item.setAttribute("class", "mdl-list__item");
+      list_item.appendChild(name_span);
+      list_item.appendChild(check_span);
+
+      list_item.appendChild(check_span);
+      list.appendChild(list_item);
     }
   });
 };

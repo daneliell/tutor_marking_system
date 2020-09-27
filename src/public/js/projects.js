@@ -261,10 +261,11 @@ window.onload = function(){
 function del_item(i){
   var firestore = firebase.firestore();
   let item = projects_list.splice(i,1);
-  console.log(item[0].title + item[0].unit)
-  firestore.doc("projects/" + item[0].title + item[0].unit).delete().then(function() {
-      document.location.reload();
-  }).catch(function(error) {
-      console.error("Error removing document: ", error);
-  });
+  firestore.doc("projects/" + item[0].title + item[0].unit + "tasks").delete().then(function() {
+      firestore.doc("projects/" + item[0].title + item[0].unit).delete().then(function() {
+          document.location.reload();
+        });
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
 }
