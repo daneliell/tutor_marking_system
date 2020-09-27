@@ -80,6 +80,21 @@
 							    <label class="mdl-textfield__label" for="sample3">Unit Name</label>
 							  </div>
 							</form>
+						</div>
+
+						<div class="mdl-cell mdl-cell--6-col">
+							<!-- Simple Textfield -->
+							<!--<form action="#">
+								<div class="mdl-textfield mdl-js-textfield">
+								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" required></textarea>
+								    <label class="mdl-textfield__label" for="sample5">Usernames (separated by comma)</label>
+							  </div>
+							</form>
+							<select id ="members" class="mdl-textfield__input" style= "width: 60%;">
+								<option class="mdl-menu__item" disabled selected value> Select </option>
+								<option class="mdl-menu__item" value = "maxTanker">maxtanker</option>
+							</select>
+							<br></br>-->
 
 							<h4 style= "font-size: 22;"> Due Date </h4>
 							<!-- Simple Textfield -->
@@ -88,17 +103,6 @@
 								<label class="mdl-textfield__label" for="departureDate">Due Date</label>
 								<span class="mdl-textfield__error">Due date must be a future date!</span>
 							</div>
-						</div>
-
-						<div class="mdl-cell mdl-cell--6-col">
-							<h4 style= "font-size: 22;"> Team Members </h4>
-							<!-- Simple Textfield -->
-							<form action="#">
-								<div class="mdl-textfield mdl-js-textfield">
-								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" required></textarea>
-								    <label class="mdl-textfield__label" for="sample5">Usernames (separated by comma)</label>
-							  </div>
-							</form>
 
 							<h4 style= "font-size: 22;"> Tasks </h4>
 							<!-- Simple Textfield -->
@@ -108,6 +112,26 @@
 									<label class="mdl-textfield__label" for="sample5">Tasks (separated by comma)</label>
 							  </div>
 							</form>
+
+							<h4 style= "font-size: 22;"> Team Members </h4>
+							<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+								<thead>
+									<tr>
+										<th class="mdl-data-table__cell--non-numeric">Student</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+									</tr>
+									<tr>
+										<td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
+									</tr>
+									<tr>
+										<td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
+									</tr>
+								</tbody>
+							</table>
 
 							<button class="mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
 								<div class="mdc-button__ripple"></div>

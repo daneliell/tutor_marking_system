@@ -50,51 +50,64 @@ function create_project(){
   }
   else
   {
-    // If not, upload to database
-    // For now, using local storage
-    //add_local(details);
     var firestore = firebase.firestore();
 
-    const projectsRef = firestore.collection("projects");
-    projectsRef.doc(details.project_name + details.unit_name).set({
+    /*let members = details.members.split(",");
+    let valid_members = [];
+    let tasks = details.tasks.split(",");
+    let exist = true;
+
+    firestore.collection("students").get().then(function(querySnapshot){
+      querySnapshot.forEach(function(doc){
+        valid_members.push(doc.data());
+      })
+    });
+    console.log(valid_members);
+
+    for (let i = 0; i < members.length; i++){
+      let member = members[i];
+      for (let j = 0; i < valid_members.length; j++){
+        if (member == valid_members[j]){
+          console.log(valid_members[j]);
+        }
+      }
+    }*/
+
+    /*firestore.doc("projects/" + details.project_name + details.unit_name).set({
       title: details.project_name,
       unit: details.unit_name,
       due_date: details.due_date,
-      members: details.members,
-      tasks: details.tasks
+      members: members,
     }).then(function(){
-      console.log("Status saved");
-    }).catch(function (error) {
+      for (let i = 0; i < tasks.length; i++)
+      {
+        firestore.doc("projects/" + details.project_name + details.unit_name + "/tasks/" + tasks[i]).set({
+          total_progress: "",
+          total_time: "",
+          members_involved: "",
+        }).then(function(){
+          window.location.replace("projects.html");
+        }).catch(function(error){
+          console.log("Error");
+        })
+      }
+    }).catch(function(error){
       console.log("Error");
-    });
+    });*/
 
-    projectsRef.doc("eNGDieHAnyFC7vicjQy7").delete().then(function() {
-      console.log("Document successfully deleted!");
+
+
+    /*projectsRef.doc("Test Project 1FIT2101").delete().then(function() {
     }).catch(function(error) {
         console.error("Error removing document: ", error);
-    });
+    });*/
 
-    setTimeout(function(){
-      window.location.replace("projects.html");
-    }, 1000);
-  }
-}
-
-function add_local(details)
-{
-  projects_list.push(details);
-  if(typeof(Storage) !== "undefined")
-  {
-  	localStorage.setItem("PROJECTS",JSON.stringify(projects_list));
-  }
-  else
-  {
-      alert("Local storage is not supported in current browser");
+    /*setTimeout(function(){
+    }, 1000);*/
   }
 }
 
 
-// For storing in local storage. Use database once implemented
 window.onload = function(){
   // Gets today's date
   let today = new Date();
@@ -125,18 +138,16 @@ window.onload = function(){
       enable_button();
   });
 
+  var firestore = firebase.firestore();
+  let valid_members = [];
 
-  /*if(typeof(Storage) !== "undefined")
-  {
-    projects = JSON.parse(localStorage.getItem("PROJECTS"));
-    for (let i = 0; i < projects.length ; i++)
-    {
-      let project = projects[i];
-      projects_list.push(project);
+  firestore.collection("students").get().then(function(querySnapshot){
+    querySnapshot.forEach(function(doc){
+      valid_members.push(doc.data());
+    })
+  }).then(function(){
+    for (let i = 0; i < valid_members; i++){
+      
     }
-  }
-  else
-  {
-      alert("Local storage is not supported in current browser");
-  }*/
+  });
 };
