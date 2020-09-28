@@ -1,10 +1,15 @@
-// For storing in local storage. Use database once implemented
 let projects_list = [];
 let valid_members = [];
 
 function enable_button(){
   button = document.getElementById("create_button");
-  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' ||  document.getElementById("tasks").value == '' || due_date.checkValidity() == false)
+  let checked = false;
+  for (let i = 0; i < valid_members.length; i++){
+    if (document.getElementById("list-checkbox-"+i).checked == true){
+      checked = true;
+    }
+  }
+  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' ||  document.getElementById("tasks").value == '' || due_date.checkValidity() == false || checked == false)
   {
     button.disabled = true;
   }
@@ -56,6 +61,9 @@ function create_project(){
     let project_id = details.project_name + details.unit_name;
 
     let tasks = details.tasks.split(",");
+    for (let i = 0; i < tasks.length; i++){
+      tasks[i] = tasks[i].trim();
+    }
 
     let members = [];
     for (let i = 0; i < valid_members.length; i++){
@@ -81,18 +89,9 @@ function create_project(){
       unit: details.unit_name,
       due_date: details.due_date,
       members: members,
+      tasks: tasks
     }).then(function(){
-      for (let i = 0; i < tasks.length; i++)
-      {
-        firestore.doc("projects/" + project_id + "/" + tasks[i] + "/default").set({
-          hours: 0,
-          members: "-",
-          progress: 0,
-          time: "-",
-        }).then(function(){
-          window.location.replace("projects.html");
-        });
-      }
+      window.location.replace("projects.html");
     });
   }
 }
@@ -137,17 +136,6 @@ window.onload = function(){
   }).then(function(){
     let list = document.getElementById("members");
     for (let i = 0; i < valid_members.length; i++){
-      /*<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content">
-          Student 1
-        </span>
-        <span class="mdl-list__item-secondary-action">
-          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
-            <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" />
-          </label>
-        </span>
-      </li>*/
-
       let student_name = document.createTextNode(valid_members[i].name);
 
       let name_span = document.createElement("span");
