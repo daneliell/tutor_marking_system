@@ -9,10 +9,8 @@ function details(){
 
     const db = firebase.firestore()
     //todo: get name from projects, this is just a static project col
-    let pname="Test Project 1FIT1001"
+    let pname="TESTFIT1001"
     const projRef = db.collection("projects").doc(pname)
-    //This should be replaced by info from db
-    let stat_objects=[]
 
     // firebase.auth().onAuthStateChanged(function(user) {
     // if (user) {
@@ -27,6 +25,7 @@ function details(){
     // create member option using DOM
     projRef.get().then(function(doc) {
         if (doc.exists) {
+            //Get member list
             let members = doc.data().members
             for (m in members){
                 let studentDoc = db.collection("students").doc(members[m])
@@ -48,22 +47,24 @@ function details(){
     });
         
     
-    const taskRef = projRef.collection("tasks")
-    taskRef.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // console.log(doc.id(doc title), " => ", doc.data()(details));
+    // const taskRef = projRef.collection("tasks")
+    projRef.get().then(function(doc) {
+        // console.log(doc.id(doc title), " => ", doc.data()(details));
+        // Get tasks list 
+        let task_arr = doc.data().tasks
+        for (t in task_arr){
             const newOption = document.createElement('option');
-            const optionText = document.createTextNode(doc.id);
+            const optionText = document.createTextNode(task_arr[t]);
             // set option text
             newOption.appendChild(optionText);
             // and option value
-            newOption.setAttribute('value',doc.id);
+            newOption.setAttribute('value',task_arr[t]);
             // add the option to the select box
             taskslist.appendChild(newOption);
 
-            let headers = ["Time", "Member","Progress (%)","Time Spent (hours)"]
+
             //Create new title
-            const task_text = document.createTextNode(doc.id)
+            const task_text = document.createTextNode(task_arr[t])
             const new_title = document.createElement("h4")
             new_title.appendChild(task_text)
             tables_area.appendChild(new_title)
@@ -110,7 +111,7 @@ function details(){
             
             //Create body
             const new_body = document.createElement("tbody")
-            new_body.setAttribute("id",doc.id)
+            new_body.setAttribute("id",task_arr[t])
             //Create a blank row so we can add records dynamically later
             const blank_row = document.createElement("tr")
             new_body.appendChild(blank_row)
@@ -120,33 +121,53 @@ function details(){
             //Append body to the area and set break line
             tables_area.appendChild(new_table)
             tables_area.appendChild(document.createElement("br"))
-        });
+        }
     })
     .catch(function(error) {
         console.log("Error getting document:", error);
     });
 
     //Print the tables
-    taskRef.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            const logRef = taskRef.doc(doc.id).collection("log").orderBy("time")
-            const current_table = document.getElementById(doc.id)
-            logRef.get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    const row = current_table.insertRow(1)
-                    const cell1 = row.insertCell(0);
-                    cell1.setAttribute("class", "mdl-data-table__cell--non-numeric")
-                    cell1.innerHTML=doc.data().time
-                    const cell2 = row.insertCell(1);
-                    cell2.setAttribute("class", "mdl-data-table__cell--non-numeric")
-                    cell2.innerHTML=doc.data().name
-                    const cell3 = row.insertCell(2);
-                    cell3.innerHTML=doc.data().progress
-                    const cell4 = row.insertCell(3);
-                    cell4.innerHTML=doc.data().hours
-                })
-            })
-    })
+    projRef.get().then(function(doc) {
+        const log_arr=doc.data().log
+        // querySnapshot.forEach(function(doc) {
+        for (l in log_arr){
+            const current_table = document.getElementById(log_arr[l].task)
+            const row = current_table.insertRow(1)
+            const cell1 = row.insertCell(0);
+            cell1.setAttribute("class", "mdl-data-table__cell--non-numeric")
+            cell1.innerHTML=log_arr[l].time
+            const cell2 = row.insertCell(1);
+            cell2.setAttribute("class", "mdl-data-table__cell--non-numeric")
+            cell2.innerHTML=log_arr[l].name
+            const cell3 = row.insertCell(2);
+            cell3.innerHTML=log_arr[l].progress
+            const cell4 = row.insertCell(3);
+            cell4.innerHTML=log_arr[l].hours
+        }
+ 
+    })    
+    
+    // taskRef.get().then(function(querySnapshot) {
+    //     querySnapshot.forEach(function(doc) {
+    //         const logRef = taskRef.doc(doc.id).collection("log").orderBy("time")
+    //         const current_table = document.getElementById(doc.id)
+    //         logRef.get().then(function(querySnapshot) {
+    //             querySnapshot.forEach(function(doc) {
+    //                 const row = current_table.insertRow(1)
+    //                 const cell1 = row.insertCell(0);
+    //                 cell1.setAttribute("class", "mdl-data-table__cell--non-numeric")
+    //                 cell1.innerHTML=doc.data().time
+    //                 const cell2 = row.insertCell(1);
+    //                 cell2.setAttribute("class", "mdl-data-table__cell--non-numeric")
+    //                 cell2.innerHTML=doc.data().name
+    //                 const cell3 = row.insertCell(2);
+    //                 cell3.innerHTML=doc.data().progress
+    //                 const cell4 = row.insertCell(3);
+    //                 cell4.innerHTML=doc.data().hours
+    //             })
+    //         })
+    // })
 
 
     // Update the current slider value (each time you drag the slider handle)
@@ -161,16 +182,27 @@ function details(){
         let in_member = namelist.value
         let in_task = taskslist.value
 
+        //Create new map in log array
         const now = new Date()
-        const logRef = taskRef.doc(in_task).collection("log")
-        logRef.add({
-            name: in_member,
-            progress: in_percent,
-            hours:in_hours,
-            time: now.toLocaleString()
-        })
+        projRef.update({
+            "log":firebase.firestore.FieldValue.arrayUnion({
+                time: now.toLocaleString(),
+                name:in_member,
+                progress:in_percent,
+                hours:in_hours,
+                task:in_task
+            })
 
         })
+        // const logRef = projRef.doc(in_task).collection("log")
+        // logRef.add({
+        //     name: in_member,
+        //     progress: in_percent,
+        //     hours:in_hours,
+        //     time: now.toLocaleString()
+        // })
+
+        
     })
 }
 
