@@ -1,24 +1,26 @@
 <html>
     <head>
-      <style>
-      .demo-card-wide.mdl-card {
+        <style>
+        .demo-card-wide.mdl-card {
         width: 512px;
-      }
-      .demo-card-wide > .mdl-card__title {
+        }
+        .demo-card-wide > .mdl-card__title {
         color: #fff;
         height: 56px;
         background: blueviolet center / cover;
-      }
-      .demo-card-wide > .mdl-card__menu {
+        }
+        .demo-card-wide > .mdl-card__menu {
         color: #fff;
-      }
-      .display-text {
+        }
+        .display-text {
         color: black;
-      }
-      </style>
+        }
+        </style>
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--bootstrap https://bootsnipp.com/snippets/xnVB-->
       
       <!--getmdl.io-->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -30,6 +32,7 @@
 
       <!--from https://material.io/develop/web/docs/getting-started-->
       <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
       <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
@@ -45,7 +48,7 @@
       <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
       <script src="js/fireBase.js"></script>
-      <script src="js/track_user.js"></script>
+      <script src="js/user_profile.js"></script>
     </head>
     <body>
       <!-- Always shows a header, even in smaller screens. -->
@@ -60,6 +63,9 @@
             <!--Display the current user @david-->
             <span id="displayUserUI" class="mdl-layout-title">Loading</span>
             <span>&nbsp;&nbsp;</span>
+            <button onclick="location.href='user_profile.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+              <i class="material-icons" id="logoutButton">account_circle</i>
+              </button>&nbsp;
             <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
             <i class="material-icons" id="logoutButton">logout</i>
             </button>
@@ -67,7 +73,58 @@
           </div>
         </header>
         <main class="mdl-layout__content"><br><br><br>
-          
+            
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: auto;">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text" id="displayNameUI1">Welcome</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <div class=" col-md-12"> 
+                        <table class="table table-user-information">
+                          <tbody>
+                            <tr>
+                              <td>Display Name</td>
+                              <td>:</td>
+                              <td id="displayNameUI2">Loading</td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td>Email:</td>
+                              <td>:</td>
+                              <td id="displayEmailUI">Loading</td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td>ID:</td>
+                              <td>:</td>
+                              <td id="displayIDUI">Loading</td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td>Status:</td>
+                              <td>:</td>
+                              <td id="displayStatusUI">Loading</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <button class="mdc-button mdc-button--raised">
+                        <div class="mdc-button__ripple"></div>
+                        <i class="material-icons-outlined mdc-button__icon" aria-hidden="true">admin_panel_settings</i>
+                        <span class="mdc-button__label" style="font-size:9pt;">Request Lecturer Privileges</span>
+                    </button>
+                </div>
+                <div class="mdl-card__menu">
+                </div>
+              </div>
           
           
         </main>

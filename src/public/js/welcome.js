@@ -46,33 +46,6 @@ var mainApp = {};
                     }
                 })
 
-
-
-            studentRef.get()
-                .then((docSnapShot) => {
-                    if (docSnapShot.exists) {
-                        console.log("document already exists!")
-                        //do nothing
-                    } else {
-                        // create new data
-                        studentRef.set({
-                            id: docID,
-                            name: userName,
-                            email: userEmail,
-                            status: "student",
-                            projects: []
-                        }, {merge: true})
-                        .then(function() {
-                            console.log("Document successfully written!");
-                        })
-                        .catch(function(error) {
-                            console.error("Error writing document: ", error);
-                        });
-                    }
-                })
-
-
-
         }else{
             userId = null;
             // Redirect back to Login page
