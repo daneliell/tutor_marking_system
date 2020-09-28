@@ -69,6 +69,7 @@ window.onload = function(){
         text.setAttribute("class","mdc-list-item__text");
         text.append(primary_text);
         text.append(secondary_text);
+        
 
         let ripple = document.createElement("span");
         ripple.setAttribute("class", "mdc-list-item__ripple")
@@ -76,6 +77,7 @@ window.onload = function(){
         let ripple_button = document.createElement("div");
         ripple_button.setAttribute("class", "mdc-button__ripple")
 
+        
         let icon = document.createElement("i");
         icon.setAttribute("class", "material-icons");
         let del_icon = document.createTextNode("delete");
@@ -102,6 +104,12 @@ window.onload = function(){
         cell.appendChild(new_item);
 
         grid_inner.appendChild(cell);
+        grid_inner.addEventListener("click", function(){
+          localStorage.setItem("projectName",projects[i].project_name);
+          window.location.href = "details.html"
+
+
+        })
       }
     }
   }
