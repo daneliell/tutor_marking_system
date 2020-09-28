@@ -10,6 +10,7 @@ var mainApp = {};
                 displayUserUI = document.getElementById("displayUserUI"),
                 displayNameUI = document.getElementById("displayNameUI"),
                 displayEmailUI = document.getElementById("displayEmailUI"),
+                displayStatusUI = document.getElementById("displayStatusUI")
 
                 userName = user.displayName,
                 userEmail = user.email,
@@ -19,15 +20,16 @@ var mainApp = {};
 
             displayUserUI.textContent = String(user.displayName)
             displayNameUI.textContent = String(user.displayName)
-            displayEmailUI.textContent = String(user.email)
+            displayEmailUI.textContent = "Email: " +  String(user.email)
 
             studentRef.get()
                 .then((docSnapShot) => {
                     if (docSnapShot.exists) {
-                        console.log("document already exists!")
-                        //do nothing
+                        console.log("Document already exists!")
+                        displayStatusUI.textContent = "Status: " + docSnapShot.data().status
                     } else {
                         // create new data
+                        displayStatusUI.textContent = "Status: Student"
                         studentRef.set({
                             id: docID,
                             name: userName,
@@ -36,7 +38,7 @@ var mainApp = {};
                             projects: []
                         }, {merge: true})
                         .then(function() {
-                            console.log("Document successfully written!");
+                            console.log("Document successfully created!");
                         })
                         .catch(function(error) {
                             console.error("Error writing document: ", error);

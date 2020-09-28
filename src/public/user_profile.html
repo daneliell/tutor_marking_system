@@ -45,7 +45,7 @@
       <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
       <script src="js/fireBase.js"></script>
-      <script src="js/welcome.js"></script>
+      <script src="js/track_user.js"></script>
     </head>
     <body>
       <!-- Always shows a header, even in smaller screens. -->
@@ -59,10 +59,7 @@
 
             <!--Display the current user @david-->
             <span id="displayUserUI" class="mdl-layout-title">Loading</span>
-            <span>&nbsp;</span>
-            <button onclick="location.href='user_profile.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
-              <i class="material-icons" id="logoutButton">account_circle</i>
-              </button>
+            <span>&nbsp;&nbsp;</span>
             <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
             <i class="material-icons" id="logoutButton">logout</i>
             </button>
@@ -71,24 +68,7 @@
         </header>
         <main class="mdl-layout__content"><br><br><br>
           
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: auto;">
-            <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text">Welcome</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-              <h6 class="display-text">Logged in as:</h6>
-              <h4 id="displayNameUI" class="display-text"></h4>
-              <h6 id="displayEmailUI" class="display-text">email:</h6>
-              <h6 id="displayStatusUI" class="display-text">status:</h6>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="location.href='projects.html';">
-                Get Started
-              </a>
-            </div>
-            <div class="mdl-card__menu">
-            </div>
-          </div>
+          
           
         </main>
       </div>
