@@ -53,6 +53,8 @@ function create_project(){
   {
     var firestore = firebase.firestore();
 
+    let project_id = details.project_name + details.unit_name;
+
     let tasks = details.tasks.split(",");
 
     let members = [];
@@ -60,32 +62,21 @@ function create_project(){
       let checked = document.getElementById("list-checkbox-"+i).checked;
       if (checked == true){
         members.push(valid_members[i].id);
-        /*firestore.doc("students/" + valid_members[i].id).set({
-          projects: details.project_name + details.unit_name,
-        })*/
+        let studentRef = firestore.doc("students/" + valid_members[i].id);
+        let projects_array = [];
+        studentRef.get().then(function(doc){
+          if (doc.exists){
+            projects_array = doc.data() ;
+          }
+        })
+        projects_array.push(project_id);
+        studentRef.update({
+          projects: projects_array
+        })
       }
     }
-    //let members = details.members.split(",");
-    //let valid_members = [];
-    //let exist = true;
 
-    /*firestore.collection("students").get().then(function(querySnapshot){
-      querySnapshot.forEach(function(doc){
-        valid_members.push(doc.data());
-      })
-    });
-    console.log(valid_members);
-
-    for (let i = 0; i < members.length; i++){
-      let member = members[i];
-      for (let j = 0; i < valid_members.length; j++){
-        if (member == valid_members[j]){
-          console.log(valid_members[j]);
-        }
-      }
-    }*/
-
-    firestore.doc("projects/" + details.project_name + details.unit_name).set({
+    firestore.doc("projects/" + project_id).set({
       title: details.project_name,
       unit: details.unit_name,
       due_date: details.due_date,
@@ -93,18 +84,15 @@ function create_project(){
     }).then(function(){
       for (let i = 0; i < tasks.length; i++)
       {
-        firestore.doc("projects/" + details.project_name + details.unit_name + "/tasks/" + tasks[i]).set({
-          total_progress: "",
-          total_time: "",
-          members_involved: "",
+        firestore.doc("projects/" + project_id + "/" + tasks[i] + "/default").set({
+          hours: 0,
+          members: "-",
+          progress: 0,
+          time: "-",
         }).then(function(){
           window.location.replace("projects.html");
-        }).catch(function(error){
-          console.log("Error");
-        })
+        });
       }
-    }).catch(function(error){
-      console.log("Error");
     });
   }
 }
