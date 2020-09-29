@@ -36,6 +36,10 @@ var mainApp = {};
                         }
                         displayStatusUI.textContent = status
                         displayIDUI.textContent = docSnapShot.data().id
+                        
+                        var displayStatus = docSnapShot.data().status
+                        if(status == "lecturer") {displayStatus = "L"} else if(displayStatus == "student") {status = "S"} else if(displayStatus == "administrator") {status = "A"}
+                        displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
                     } else {
                         console.log("Document doesn't exists!")
                     }
