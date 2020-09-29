@@ -36,7 +36,7 @@
       <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
-      <title>Main</title>
+      <title>Profile</title>
 
       <!--FIREBASE SDK-->
       <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -59,7 +59,7 @@
           </button>
           <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Welcome</span>
+            <span class="mdl-layout-title">Profile</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
 
@@ -79,7 +79,7 @@
             
             <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: auto;">
                 <div class="mdl-card__title">
-                  <h2 class="mdl-card__title-text" id="displayNameUI1">Welcome</h2>
+                  <h2 class="mdl-card__title-text" id="displayNameUI1">Loading</h2>
                 </div>
                 <div class="mdl-card__supporting-text">
                     <div class=" col-md-12"> 
@@ -119,17 +119,19 @@
                       </div>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
-                    <button class="mdc-button mdc-button--raised">
+                  <input type="text" name="password" id="lecturerTokenInput">&nbsp;
+                    <button class="mdc-button mdc-button--raised" type="button" id="updateStatusButton" onclick="updateStatus()">
                         <div class="mdc-button__ripple"></div>
                         <i class="material-icons-outlined mdc-button__icon" aria-hidden="true">admin_panel_settings</i>
                         <span class="mdc-button__label" style="font-size:9pt;">Request Lecturer Privileges</span>
-                    </button>
+                      </button>
                 </div>
                 <div class="mdl-card__menu">
+
                 </div>
               </div>
-          
-          
+              <br><br><br><br>
+
         </main>
       </div>
     </body>
