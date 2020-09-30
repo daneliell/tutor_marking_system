@@ -179,7 +179,21 @@ function details(){
     percent.innerHTML = slider.value+"%"; // Change the slider value dynamically
     slider.addEventListener("input", function() {
         percent.innerHTML = this.value+"%";
+        enable_button();
     })
+    
+    hours.addEventListener("input", function(){
+        enable_button();
+    })
+
+    function enable_button(){
+        if (Number(slider.value)>0 && Number(hours.value)>0){
+            btn_submit.disabled=false
+        }
+        else{
+            btn_submit.disabled=true
+        }
+    }
 
     btn_submit.addEventListener("click", function(){
         let in_percent=Number(slider.value)
