@@ -1,30 +1,38 @@
 const chatLog = document.querySelector('#chat');
-const form = document.querySelector('#message-form');
+//const form = document.querySelector('#message-form');
+const form = document.getElementById("message-form");
 
-let pname="TESTFIT1001";
-const projRef = firebase.firestore().collection("projects").doc(pname)
+//var user = firebase.auth().currentUser;
+//var userName;
+
+const db = firebase.firestore();
+
+var url_string = window.location.href; //window.location.href
+var url = new URL(url_string);
+var pname = decodeURIComponent(url.searchParams.get("project"));
+const projRef = db.collection("projects").doc(pname);
 
 // create element and render chat
-function renderChat(doc){
+function renderChat(doc) {
     let li = document.createElement('li');
     let name = document.createElement('span');
     let usermsg = document.createElement('span');
 
     li.setAttribute('data-id', doc.id);
 
-    name.textContent = doc.data().name + " "+ doc.data().time;
+    name.textContent = doc.data().name + " " + doc.data().time;
     //time.textContent = doc.data().time;
     usermsg.textContent = doc.data().usermsg;
 
     li.appendChild(name)
     //li.appendChild(time);
-    console.log(usermsg.textContent.length);
+    //console.log(usermsg.textContent.length);
 
     li.appendChild(usermsg);
     chatLog.appendChild(li);
 }
 
-//saving data 
+//saving data
 form.addEventListener('submit', (e) => {
     e.preventDefault(); //normally when the send button is pressed it will refresh the page
 
@@ -39,31 +47,35 @@ form.addEventListener('submit', (e) => {
 
     var currentDate = new Date();
     var dateTime = currentDate.today() + ", " + currentDate.timeNow();
+    var user = firebase.auth().currentUser;
+    var userName;
+    if (user !=null){
+    userName = user.displayName
+    }
+    else {
+    userName = "Error"
+    }
 
-    //var docID = user.email.substr(0, 8);
-    //var studentName = db.collection("students").doc(docID);
-    
-    //db.collection("comment").add({
     projRef.collection("comment").add({
-        name: 'Jason', // change this to current user
+        name: userName, // change this to current user
         time: dateTime,
         usermsg: form.usermsg.value
-        
-    });
+    })
+
     // Clear input after submission
     form.usermsg.value = '';
+
 })
 
 // real-time listener *orderBy('time')
-//db.collection('comment').orderBy('time').onSnapshot(snapshot => {
 projRef.collection('comment').orderBy('time').onSnapshot(snapshot => {
     let changes = snapshot.docChanges();
     changes.forEach(change => {
-        console.log(change.doc.data())
-        if(change.type == 'added'){
+        //console.log(change.doc.data())
+        if (change.type == 'added') {
             renderChat(change.doc)
-        } else if (change.type == 'removed'){ // for admin to remove inappropriate comments
-            let li = chatLog.querySelector('[data-id=' + change.doc.id+ ']');
+        } else if (change.type == 'removed') { // for admin to remove inappropriate comments
+            let li = chatLog.querySelector('[data-id=' + change.doc.id + ']');
             chatLog.removeChild(li);
         }
     })
