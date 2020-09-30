@@ -15,12 +15,20 @@
         .display-text {
         color: black;
         }
+        .lect-only, .student-only, .admin-only{
+          display: none;
+        }
+        .show-once {
+          color: red;
+          display: none;
+        }
         </style>
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!--bootstrap https://bootsnipp.com/snippets/xnVB-->
+      <!--jQuery-->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
       
       <!--getmdl.io-->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -118,18 +126,19 @@
                         </table>
                       </div>
                 </div>
-                <div class="mdl-card__actions mdl-card--border">
-                  <input type="text" name="password" id="lecturerTokenInput">&nbsp;
-                    <button class="mdc-button mdc-button--raised" type="button" id="updateStatusButton" onclick="updateStatus()">
-                        <div class="mdc-button__ripple"></div>
-                        <i class="material-icons-outlined mdc-button__icon" aria-hidden="true">admin_panel_settings</i>
-                        <span class="mdc-button__label" style="font-size:9pt;">Request Lecturer Privileges</span>
+                <div class="mdl-card__actions mdl-card--border student-only admin-only">
+                  <input type="text" name="password" id="lecturerTokenInput" class="student-only admin-only">&nbsp;
+                    <button class="mdc-button mdc-button--raised student-only admin-only" type="button" id="updateStatusButton" onclick="updateStatus()">
+                        <div class="mdc-button__ripple student-only admin-only"></div>
+                        <i class="material-icons-outlined mdc-button__icon student-only admin-only" aria-hidden="true">admin_panel_settings</i>
+                        <span class="mdc-button__label student-only admin-only" style="font-size:9pt;">Request Lecturer Privileges</span>
                       </button>
                 </div>
                 <div class="mdl-card__menu">
 
                 </div>
               </div>
+              <center><p class="show-once">Status upgrade successfull, please reload the page</p></center>
               <br><br><br><br>
 
         </main>
