@@ -27,7 +27,7 @@ function details(){
     // console.log(localStorage.getItem("projectName"))
     
     // create member option using DOM
-    projRef.get().then(function(doc) {
+    projRef.onSnapshot(function(doc) {
         if (doc.exists) {
             //Get member list
             let members = doc.data().members
@@ -52,7 +52,7 @@ function details(){
         
     
     // const taskRef = projRef.collection("tasks")
-    projRef.get().then(function(doc) {
+    projRef.onSnapshot(function(doc) {
         // console.log(doc.id(doc title), " => ", doc.data()(details));
         // Get tasks list 
         let task_arr = doc.data().tasks
@@ -132,7 +132,7 @@ function details(){
     });
 
     //Print the tables
-    projRef.get().then(function(doc) {
+    projRef.onSnapshot(function(doc) {
         const log_arr=doc.data().log
         if (log_arr.length!=0){
             for (l in log_arr){
@@ -195,12 +195,11 @@ function details(){
         }
     }
 
-    btn_submit.addEventListener("click", function(){
+    function update_log(){
         let in_percent=Number(slider.value)
         let in_hours = Number(hours.value)
         let in_member = namelist.value
         let in_task = taskslist.value
-
         //Updates the list of logs
         //By using batch updates even though I only have one operation
         //But arrayUnion normally should work for 1 operation
@@ -223,7 +222,13 @@ function details(){
         batch.commit()
         .then(() => console.log('Success!'))
         .catch(err => console.log('Failed!', err));
+    }
 
+    btn_submit.addEventListener("click", function(){
+        const warning = confirm("You cannot edit/delete your log later!\nDo you want to submit?")
+        if (warning){
+            update_log();
+        }
     })
 }
 

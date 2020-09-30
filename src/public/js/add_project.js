@@ -84,6 +84,8 @@ function create_project(){
       }
     }
 
+
+
     firestore.doc("projects/" + project_id).set({
       title: details.project_name,
       unit: details.unit_name,
@@ -91,6 +93,7 @@ function create_project(){
       members: members,
       tasks: tasks,
       log:[]
+
     }).then(function(){
       window.location.replace("projects.html");
     });
