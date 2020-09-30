@@ -9,7 +9,11 @@ function details(){
 
     const db = firebase.firestore()
     //todo: get name from projects, this is just a static project col
-    let pname="TESTFIT1001"
+    var url_string = window.location.href; //window.location.href
+    var url = new URL(url_string);
+    var pname = decodeURIComponent(url.searchParams.get("project"));
+    // var pname = "Test Project 1FIT2101";
+    
     const projRef = db.collection("projects").doc(pname)
 
     // firebase.auth().onAuthStateChanged(function(user) {
@@ -130,20 +134,21 @@ function details(){
     //Print the tables
     projRef.get().then(function(doc) {
         const log_arr=doc.data().log
-        // querySnapshot.forEach(function(doc) {
-        for (l in log_arr){
-            const current_table = document.getElementById(log_arr[l].task)
-            const row = current_table.insertRow(1)
-            const cell1 = row.insertCell(0);
-            cell1.setAttribute("class", "mdl-data-table__cell--non-numeric")
-            cell1.innerHTML=log_arr[l].time
-            const cell2 = row.insertCell(1);
-            cell2.setAttribute("class", "mdl-data-table__cell--non-numeric")
-            cell2.innerHTML=log_arr[l].name
-            const cell3 = row.insertCell(2);
-            cell3.innerHTML=log_arr[l].progress
-            const cell4 = row.insertCell(3);
-            cell4.innerHTML=log_arr[l].hours
+        if (log_arr.length!=0){
+            for (l in log_arr){
+                const current_table = document.getElementById(log_arr[l].task)
+                const row = current_table.insertRow(1)
+                const cell1 = row.insertCell(0);
+                cell1.setAttribute("class", "mdl-data-table__cell--non-numeric")
+                cell1.innerHTML=log_arr[l].time
+                const cell2 = row.insertCell(1);
+                cell2.setAttribute("class", "mdl-data-table__cell--non-numeric")
+                cell2.innerHTML=log_arr[l].name
+                const cell3 = row.insertCell(2);
+                cell3.innerHTML=log_arr[l].progress
+                const cell4 = row.insertCell(3);
+                cell4.innerHTML=log_arr[l].hours
+            }
         }
  
     })    
@@ -182,27 +187,29 @@ function details(){
         let in_member = namelist.value
         let in_task = taskslist.value
 
-        //Create new map in log array
+        //Updates the list of logs
+        //By using batch updates even though I only have one operation
+        //But arrayUnion normally should work for 1 operation
+        //We could use some improv
         const now = new Date()
-        projRef.update({
-            "log":firebase.firestore.FieldValue.arrayUnion({
-                time: now.toLocaleString(),
-                name:in_member,
-                progress:in_percent,
-                hours:in_hours,
-                task:in_task
-            })
+        const batch = db.batch()
+        batch.update(projRef, {
+            log:firebase.firestore.FieldValue.arrayUnion(
+                {
+                    time: now.toLocaleString(),
+                    name:in_member,
+                    progress:in_percent,
+                    hours:in_hours,
+                    task:in_task
+                }
+            )
 
         })
-        // const logRef = projRef.doc(in_task).collection("log")
-        // logRef.add({
-        //     name: in_member,
-        //     progress: in_percent,
-        //     hours:in_hours,
-        //     time: now.toLocaleString()
-        // })
 
-        
+        batch.commit()
+        .then(() => console.log('Success!'))
+        .catch(err => console.log('Failed!', err));
+
     })
 }
 

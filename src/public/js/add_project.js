@@ -89,7 +89,8 @@ function create_project(){
       unit: details.unit_name,
       due_date: details.due_date,
       members: members,
-      tasks: tasks
+      tasks: tasks,
+      log:[]
     }).then(function(){
       window.location.replace("projects.html");
     });

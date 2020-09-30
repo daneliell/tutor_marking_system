@@ -64,7 +64,7 @@ window.onload = function(){
         button.appendChild(icon);
 
         let link = document.createElement("a");
-        link.setAttribute("href", "details.html");
+        link.setAttribute("href", "details.html?project="+encodeURIComponent(projects_list[i].title+projects_list[i].unit));
         link.setAttribute("style", "text-decoration:none;color: black;")
         link.appendChild(text);
 
