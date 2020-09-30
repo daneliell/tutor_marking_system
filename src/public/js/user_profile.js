@@ -30,15 +30,23 @@ var mainApp = {};
                 .then((docSnapShot) => {
                     if (docSnapShot.exists) {
                         const status = docSnapShot.data().status
-                        if(status == "lecturer" || status == "administrator"){
-                            document.getElementById("lecturerTokenInput").hidden = true;
-                            document.getElementById("updateStatusButton").hidden = true;
+                        var displayStatus = status
+
+                        // Show items depending of status
+                        if(status == "lecturer"){
+                            $(".lect-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "administrator") {
+                            $(".admin-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "student") {
+                            $(".student-only").attr("style", "display: inline !important");
+                        } else {
+                            console.log("unknown status")
                         }
                         displayStatusUI.textContent = status
                         displayIDUI.textContent = docSnapShot.data().id
-                        
-                        var displayStatus = docSnapShot.data().status
-                        if(status == "lecturer") {displayStatus = "L"} else if(displayStatus == "student") {status = "S"} else if(displayStatus == "administrator") {status = "A"}
+                        if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
                         displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
                     } else {
                         console.log("Document doesn't exists!")
@@ -60,6 +68,7 @@ var mainApp = {};
 })()
 
 function updateStatus(){
+    console.log("updating status")
     const
         db = firebase.firestore(),
         docId = document.getElementById("displayIDUI").textContent,
@@ -92,8 +101,8 @@ function updateStatus(){
                                 });
 
                             console.log('Transaction success!');
-                            window.location.reload(true)
-
+                            
+                            document.getElementById("lecturerTokenInput").value = "Try reloading the page"
                         } else {
                             console.log('Token Invalid!' );
                             document.getElementById("lecturerTokenInput").value = 'Token Invalid!'
@@ -102,6 +111,9 @@ function updateStatus(){
                         console.log("Document doesn't exists!")
                     }
                 })
+            
+                $(".student-only").attr("style", "display: none !important");
+                $(".show-once").attr("style", "display: inline !important");
     
 }
 
