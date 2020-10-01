@@ -165,12 +165,17 @@ function details(){
 
     //Enables button when conditions are met
     function enable_button(){
-        if (Number(slider.value)>0 && Number(hours.value)>0 && taskslist.value!=""){
-            btn_submit.disabled=false
-        }
-        else{
-            btn_submit.disabled=true
-        }
+        projRef.get().then(function(doc){
+            const due = doc.data().due_date
+            const now = new Date()
+            if (Number(slider.value)>0 && Number(hours.value)>0 && taskslist.value!="" || Date.parse(due)<now){
+                btn_submit.disabled=false
+            }
+            else{
+                btn_submit.disabled=true
+            }
+        })
+        
     }
 
 
