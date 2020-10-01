@@ -84,12 +84,19 @@ function create_project(){
       }
     }
 
+    //Creating a map to store total progress
+    let obj={}
+    tasks.forEach(e=>obj[e]=0)
+
     firestore.doc("projects/" + project_id).set({
       title: details.project_name,
       unit: details.unit_name,
       due_date: details.due_date,
       members: members,
-      tasks: tasks
+      tasks: tasks,
+      log:[],
+      total_progress: obj
+
     }).then(function(){
       window.location.replace("projects.html");
     });

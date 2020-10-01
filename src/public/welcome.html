@@ -27,10 +27,16 @@
       .lecturer:active{
         color: yellow !important;
       }
+      .lect-only, .admin-only, .student-only{
+        display: none !important;
+      }
       </style>
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!--jQuery-->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
       
       <!--getmdl.io-->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -63,6 +69,9 @@
       <!-- Always shows a header, even in smaller screens. -->
 		  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header class="mdl-layout__header">
+            <button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='projects.html';">
+              <i class="material-icons">home</i>
+            </button>
           <div class="mdl-layout__header-row">
             <!-- Title -->
             <span class="mdl-layout-title">Welcome</span>
@@ -97,7 +106,7 @@
               <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="location.href='projects.html';">
                 Get Started
               </a>
-              <a class="lecturer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="location.href='user_profile.html';">
+              <a class="lecturer mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect student-only admin-only" onclick="location.href='user_profile.html';">
                 Are you a lecturer?
               </a>
             </div>

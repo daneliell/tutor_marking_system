@@ -26,7 +26,27 @@ var mainApp = {};
                 .then((docSnapShot) => {
                     if (docSnapShot.exists) {
                         console.log("Document already exists!")
-                        displayStatusUI.textContent = "Status: " + docSnapShot.data().status
+
+                        // Display Status beside display name
+                        const status = docSnapShot.data().status
+                        var displayStatus = status
+
+                        if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
+                        displayStatusUI.textContent = "Status: " + status
+                        displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
+
+                        // Show items depending of status
+                        if(status == "lecturer"){
+                            $(".lect-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "administrator") {
+                            $(".admin-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "student") {
+                            $(".student-only").attr("style", "display: inline !important");
+                        } else {
+                            console.log("unknown status")
+                        }
                     } else {
                         // create new data
                         displayStatusUI.textContent = "Status: Student"

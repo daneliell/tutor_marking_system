@@ -20,9 +20,24 @@ var mainApp = {};
                 .then((docSnapShot) => {
                     if (docSnapShot.exists) {
                         // Display Status beside display name
-                        var status = docSnapShot.data().status
-                        if(status == "lecturer") {status = "L"} else if(status == "student") {status = "S"} else if(status == "administrator") {status = "A"}
-                        displayUserUI.textContent = displayUserUI.textContent + String(" (" + status + ")")
+                        const status = docSnapShot.data().status
+                        var displayStatus = status
+
+                        if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
+                        displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
+                        
+                        // Show items depending of status
+                        if(status == "lecturer"){
+                            $(".lect-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "administrator") {
+                            $(".admin-only").attr("style", "display: inline !important");
+                        }
+                        else if(status == "student") {
+                            $(".student-only").attr("style", "display: inline !important");
+                        } else {
+                            console.log("unknown status")
+                        }
                     } else {
                         console.log("Document doesn't exists!")
                     }
