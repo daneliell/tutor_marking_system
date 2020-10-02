@@ -64,42 +64,42 @@ function create_project(){
     for (let i = 0; i < tasks.length; i++){
       tasks[i] = tasks[i].trim();
     }
-
+    
     let members = [];
     for (let i = 0; i < valid_members.length; i++){
       let checked = document.getElementById("list-checkbox-"+i).checked;
       if (checked == true){
         members.push(valid_members[i].id);
         let studentRef = firestore.doc("students/" + valid_members[i].id);
-        let projects_array = [];
-        studentRef.get().then(function(doc){
-          if (doc.exists){
-            projects_array = doc.data() ;
-          }
-        })
-        projects_array.push(project_id);
         studentRef.update({
-          projects: projects_array
+          projects: firebase.firestore.FieldValue.arrayUnion(project_id)
         })
+
       }
     }
 
     //Creating a map to store total progress
     let obj={}
     tasks.forEach(e=>obj[e]=0)
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!members.includes(user.email.substring(0,8))){
+        members.push(user.email.substring(0,8))
+      }
+      firestore.doc("projects/" + project_id).set({
+        title: details.project_name,
+        unit: details.unit_name,
+        due_date: details.due_date,
+        members: members,
+        tasks: tasks,
+        log:[],
+        total_progress: obj
 
-    firestore.doc("projects/" + project_id).set({
-      title: details.project_name,
-      unit: details.unit_name,
-      due_date: details.due_date,
-      members: members,
-      tasks: tasks,
-      log:[],
-      total_progress: obj
 
-    }).then(function(){
-      window.location.replace("projects.html");
-    });
+      }).then(function(){
+        window.location.replace("projects.html");
+      });
+    })
   }
 }
 

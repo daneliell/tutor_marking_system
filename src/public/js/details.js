@@ -15,36 +15,38 @@ function details(){
     var pname = decodeURIComponent(url.searchParams.get("project"));
     // Get current project document
     const projRef = db.collection("projects").doc(pname)
-
-    // firebase.auth().onAuthStateChanged(function(user) {
-    // if (user) {
-    //     console.log(user.email)
-    // } else {
-    //     // No user is signed in.
-    // }
-    // });
+    const studentRef = db.collection("students")
 
     // console.log(localStorage.getItem("projectName"))
     
     
     projRef.get().then(function(doc) {
         if (doc.exists) {
-
             // create member option using DOM
             let members = doc.data().members
-            for (m in members){
-                let studentDoc = db.collection("students").doc(members[m])
-                studentDoc.get().then(function(doc){
-                    const newOption = document.createElement('option');
-                    const optionText = document.createTextNode(doc.data().name);
-                    // set option text
-                    newOption.appendChild(optionText);
-                    // and option value
-                    newOption.setAttribute('value',doc.data().name);
-                    // add the option to the select box
-                    namelist.appendChild(newOption);
-                })
-            }
+            firebase.auth().onAuthStateChanged(function(user) {
+                const id = user.email.substring(0,8)
+                if (members.includes(id)){
+                    members = [id]
+                }
+                else{
+                    console.log("Are you an admin?")
+                }
+                for (m in members){
+                    let studentDoc = db.collection("students").doc(members[m])
+                    studentDoc.get().then(function(doc){
+                        const newOption = document.createElement('option');
+                        const optionText = document.createTextNode(doc.data().name);
+                        // set option text
+                        newOption.appendChild(optionText);
+                        // and option value
+                        newOption.setAttribute('value',doc.data().name);
+                        // add the option to the select box
+                        namelist.appendChild(newOption);
+                    })
+                }
+            });
+            
             // Get tasks list 
             let task_arr = doc.data().tasks
             let progress = doc.data().total_progress
@@ -139,6 +141,36 @@ function details(){
                     cell4.innerHTML=log_arr[l].hours
                 }
             }
+
+            //Enables button when conditions are met
+            function enable_button(){
+                const due = doc.data().due_date
+                const now = new Date()
+                if (Number(slider.value)>0 && Number(hours.value)>0 && taskslist.value!="" || Date.parse(due)<now){
+                    btn_submit.disabled=false
+                }
+                else{
+                    btn_submit.disabled=true
+                }
+            }
+
+            // Update the current slider value (each time you drag the slider handle)
+            // Check if button should be enabled when there is input at progress field
+            percent.innerHTML = slider.value+"%"; // Change the slider value dynamically
+            slider.addEventListener("input", function() {
+                percent.innerHTML = this.value+"%";
+                enable_button();
+            })
+            
+            //Check if button should be enabled when there is input at hours field
+            hours.addEventListener("input", function(){
+                enable_button();
+            })
+
+            taskslist.addEventListener("input",function(){
+                enable_button();
+            })
+            
         } 
         else {
             // doc.data() will be undefined in this case
@@ -146,39 +178,7 @@ function details(){
         }
     });
 
-    // Update the current slider value (each time you drag the slider handle)
-    // Check if button should be enabled when there is input at progress field
-    percent.innerHTML = slider.value+"%"; // Change the slider value dynamically
-    slider.addEventListener("input", function() {
-        percent.innerHTML = this.value+"%";
-        enable_button();
-    })
     
-    //Check if button should be enabled when there is input at hours field
-    hours.addEventListener("input", function(){
-        enable_button();
-    })
-
-    taskslist.addEventListener("input",function(){
-        enable_button();
-    })
-
-    //Enables button when conditions are met
-    function enable_button(){
-        projRef.get().then(function(doc){
-            const due = doc.data().due_date
-            const now = new Date()
-            if (Number(slider.value)>0 && Number(hours.value)>0 && taskslist.value!="" || Date.parse(due)<now){
-                btn_submit.disabled=false
-            }
-            else{
-                btn_submit.disabled=true
-            }
-        })
-        
-    }
-
-
     function update_log(){
         let in_percent=Number(slider.value)
         let in_hours = Number(hours.value)
@@ -225,7 +225,7 @@ function details(){
 
     // Create confirm box before any operation is done when submit button is clicked
     btn_submit.addEventListener("click", function(){
-        const warning = confirm("You cannot edit/delete your log later!\nDo you want to submit?")
+        const warning = confirm("You cannot edit/delete your log later!\nDo you want to submit your progress?")
         if (warning){
             update_log();
         }

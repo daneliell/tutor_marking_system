@@ -190,10 +190,23 @@ window.onload = function(){
 
 function del_item(i){
   var firestore = firebase.firestore();
-  let item = projects_list.splice(i,1);
-  firestore.doc("projects/" + item[0].title + item[0].unit).delete().then(function() {
-        document.location.reload();
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
+  let item = projects_list.splice(i,1); //[{project data}]
+
+  //Transaction way of delete
+
+  firestore.doc("projects/" + item[0].title + item[0].unit).get().then(function(doc){
+    const members = doc.data().members
+    for (m in members){
+      const studentRef = firestore.doc("students/" + members[m])
+      studentRef.update({
+        projects: firebase.firestore.FieldValue.arrayRemove(item[0].title + item[0].unit)
+      })
+    }
+  
+    firestore.doc("projects/" + item[0].title + item[0].unit).delete().then(function() {
+          document.location.reload();
+      }).catch(function(error) {
+          console.error("Error removing document: ", error);
     });
+  })
 }
