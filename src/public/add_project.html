@@ -15,16 +15,10 @@
 		.demo-list-control {
 		  width: 300px;
 			overflow-y: scroll;
-			height: 300px;
-		}
-		.demo-list-two {
-		  width: 300px;
-			overflow-y: scroll;
-			height: 400px;
-			align-content: left;
+			height: 260px;
 		}
 	</style>
-	<title>Add New Project</title>
+	<title>Add Project</title>
 
 		<!--jQuery-->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -63,7 +57,7 @@
 		    </button>
 		    <div class="mdl-layout__header-row">
 		      <!-- Title -->
-		      <span class="mdl-layout-title">Add New Project</span>
+		      <span class="mdl-layout-title">Add Project</span>
 		      <!-- Add spacer, to align navigation to the right -->
 			  <div class="mdl-layout-spacer"></div>
 
@@ -81,69 +75,54 @@
 		  </header>
 		  <main class="mdl-layout__content">
 		    <div class="page-content">
-						<center><br>
-							<h5 style= "font-size: 30;"> Create Project </h4>
-						<br>
-						<center>
+					<center>
+
 						<div class="mdl-cell mdl-cell--8-col">
 					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
 						<div class="mdl-card__title1">
 						</div>
+						<br>
+							<h4 style="font-weight: bold;">Create Project</h4>
 						<div class="mdl-grid">
 							<div class="mdl-cell mdl-cell--6-col">
 							<center>
 
-							<br>
-							<body style= "font-size: 20;"> Project Name </body>
-							<!-- Simple Textfield -->
 							<form action="#">
-							  <div class="mdl-textfield mdl-js-textfield">
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
 							    <input class="mdl-textfield__input" type="text" id="project_name" required>
 							    <label class="mdl-textfield__label" for="sample3">Project Name</label>
 							  </div>
 							</form>
 
-							<body style= "font-size: 20;"> Unit Name </body>
-							<!-- Simple Textfield -->
 							<form action="#">
-							  <div class="mdl-textfield mdl-js-textfield">
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
 							    <input class="mdl-textfield__input" type="text" id="unit_name" required>
 							    <label class="mdl-textfield__label" for="sample3">Unit Name</label>
 							  </div>
 							</form>
 
-							<body style= "font-size: 20;"> Due Date </body>
-							<!-- Simple Textfield -->
+							<h5> Due Date </h5>
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield has-placeholder">
 								<input class="mdl-textfield__input" type="date" id="due_date"></input>
 								<label class="mdl-textfield__label" for="departureDate">Due Date</label>
 								<span class="mdl-textfield__error">Due date must be a future date!</span>
 							</div>
+							<br>
+							<br>
 
-							<h4 style= "font-size: 22;"> Tasks </h4>
-							<!-- Simple Textfield -->
 							<form action="#">
-								<div class="mdl-textfield mdl-js-textfield">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
 									<textarea class="mdl-textfield__input" type="text" rows= "3" id="tasks" required></textarea>
 									<label class="mdl-textfield__label" for="sample5">Tasks (separated by comma)</label>
 								</div>
 							</form>
 						</div>
 
-						<!--<div class="mdl-cell mdl-cell--6-col">
-							<!-- Simple Textfield -->
-							<!--<form action="#">
-								<div class="mdl-textfield mdl-js-textfield">
-								    <textarea class="mdl-textfield__input" type="text" rows= "3" id="members" required></textarea>
-								    <label class="mdl-textfield__label" for="sample5">Usernames (separated by comma)</label>
-							  </div>
-							</form>-->
-
 							<div class="mdl-cell mdl-cell--6-col">
-								<h4 style= "font-size: 22;"> Team Members </h4>
+								<h5> Team Members </h5>
 								<ul class="demo-list-control mdl-list" id="members">
 								</ul>
-							<br> <br>
+								<br>
 							<button class="mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
 								<div class="mdc-button__ripple"></div>
 								Back
