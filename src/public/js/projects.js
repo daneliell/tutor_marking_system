@@ -1,7 +1,19 @@
 projects_list = [];
+function test(){
+
+    var user = firebase.auth().currentUser;
+
+    if (user != null) {
+      name = user.displayName; //get display name
+      email = user.email; //get email
+      uid = user.uid;  // The user's ID, unique to the Firebase. Try not to use this, use email instead
+      console.log(name + "," + email + "," + uid);
+    }
+}
 
 window.onload = function(){
   var firestore = firebase.firestore();
+
   let i = 0;
   firestore.collection("projects").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
@@ -55,13 +67,19 @@ window.onload = function(){
         icon.appendChild(del_icon);
 
         let button = document.createElement("button");
-        button.setAttribute("class", "mdc-button mdc-button--raised mdl-js-button mdl-button--fab")
+        button.setAttribute("class", "mdc-button mdc-button--raised")
         button.setAttribute("type", "button");
         button.addEventListener("click", function(){
           del_item(i);
         });
         button.appendChild(ripple_button);
         button.appendChild(icon);
+
+        let lecturer = document.createElement("div");
+        lecturer.setAttribute("class", "lecturer-only admin-only");
+        lecturer.innerHTML += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+        lecturer.innerHTML += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+        lecturer.appendChild(button);
 
         let link = document.createElement("a");
         link.setAttribute("href", "details.html?project="+encodeURIComponent(projects_list[i].title+projects_list[i].unit));
@@ -72,7 +90,7 @@ window.onload = function(){
         new_item.setAttribute("class","mdc-list-item")
         new_item.appendChild(link);
         new_item.appendChild(ripple);
-        new_item.appendChild(button);
+        new_item.appendChild(lecturer);
 
         let cell = document.createElement("div");
         cell.setAttribute("class", "mdc-layout-grid__cell");
@@ -202,7 +220,7 @@ function del_item(i){
         projects: firebase.firestore.FieldValue.arrayRemove(item[0].title + item[0].unit)
       })
     }
-  
+
     firestore.doc("projects/" + item[0].title + item[0].unit).delete().then(function() {
           document.location.reload();
       }).catch(function(error) {

@@ -64,7 +64,7 @@ function create_project(){
     for (let i = 0; i < tasks.length; i++){
       tasks[i] = tasks[i].trim();
     }
-    
+
     let members = [];
     for (let i = 0; i < valid_members.length; i++){
       let checked = document.getElementById("list-checkbox-"+i).checked;
@@ -81,7 +81,7 @@ function create_project(){
     //Creating a map to store total progress
     let obj={}
     tasks.forEach(e=>obj[e]=0)
-    
+
     firebase.auth().onAuthStateChanged(function(user) {
       if (!members.includes(user.email.substring(0,8))){
         members.push(user.email.substring(0,8))
@@ -107,7 +107,28 @@ function create_project(){
 window.onload = function(){
   // Gets today's date
   let today = new Date();
-  let date = today.getFullYear() + "-0" + (today.getMonth()+1) + "-" + today.getDate();
+  let date = "";
+  let year = today.getFullYear();
+  let month = "";
+  let day = "";
+  if ((today.getMonth()+1) >= 10)
+  {
+    month = today.getMonth()+1
+  }
+  else
+  {
+    month = "0" + (today.getMonth()+1)
+  }
+  if (today.getDate() < 10)
+  {
+    day = "0" + today.getDate();
+  }
+  else
+  {
+    day = today.getDate();
+  }
+  date = year + "-" + month + "-" + day;
+
   // Provides an error if due date is in the past
   let due_date = document.getElementById("due_date");
   due_date.setAttribute("min", date);
