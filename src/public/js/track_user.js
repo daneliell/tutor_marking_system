@@ -31,7 +31,6 @@ var mainApp = {};
                             var lecturerElements = Array.from(document.querySelectorAll(".lect-only"));
                             var i;
                             for (i = 0; i < lecturerElements.length; i++) {
-                                console.log(lecturerElements[i])
                                 lecturerElements[i].style.cssText = "display: inline !important";
                               }
                             // $(".lect-only").attr("style", "display: inline !important");
