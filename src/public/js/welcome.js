@@ -10,7 +10,7 @@ var mainApp = {};
                 displayUserUI = document.getElementById("displayUserUI"),
                 displayNameUI = document.getElementById("displayNameUI"),
                 displayEmailUI = document.getElementById("displayEmailUI"),
-                displayStatusUI = document.getElementById("displayStatusUI")
+                displayStatusUI = document.getElementById("displayStatusUI"),
 
                 userName = user.displayName,
                 userEmail = user.email,
@@ -26,6 +26,12 @@ var mainApp = {};
                 .then((docSnapShot) => {
                     if (docSnapShot.exists) {
                         console.log("Document already exists!")
+                        const status = docSnapShot.data().status
+                        var displayStatus = status
+
+                        if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
+                        displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
+                        displayStatusUI.textContent = "status: " + status
 
                         // Show items depending of status
                         if(status == "lecturer"){
@@ -34,7 +40,6 @@ var mainApp = {};
                             for (i = 0; i < lecturerElements.length; i++) {
                                 lecturerElements[i].style.cssText = "display: inline !important";
                               }
-                            // $(".lect-only").attr("style", "display: inline !important");
                         }
                         else if(status == "administrator") {
                             var adminElements =  Array.from(document.querySelectorAll(".admin-only"));
