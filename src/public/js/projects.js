@@ -252,9 +252,6 @@ function generate_html()
 function del_item(i){
   var firestore = firebase.firestore();
   let item = projects_list.splice(i,1); //[{project data}]
-
-  //Transaction way of delete
-
   firestore.doc("projects/" + item[0].title + item[0].unit).get().then(function(doc){
     const members = doc.data().members
     for (m in members){

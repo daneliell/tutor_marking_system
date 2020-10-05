@@ -64,28 +64,29 @@ function create_project(){
     for (let i = 0; i < tasks.length; i++){
       tasks[i] = tasks[i].trim();
     }
-
-    let members = [];
-    for (let i = 0; i < valid_members.length; i++){
-      let checked = document.getElementById("list-checkbox-"+i).checked;
-      if (checked == true){
-        members.push(valid_members[i].id);
-        let studentRef = firestore.doc("students/" + valid_members[i].id);
-        studentRef.update({
-          projects: firebase.firestore.FieldValue.arrayUnion(project_id)
-        })
-
-      }
-    }
-
+    
+    
     //Creating a map to store total progress
     let obj={}
     tasks.forEach(e=>obj[e]=0)
 
     firebase.auth().onAuthStateChanged(function(user) {
-      if (!members.includes(user.email.substring(0,8))){
-        members.push(user.email.substring(0,8))
+      let members = [];
+      for (let i = 0; i < valid_members.length; i++){
+        let checked = document.getElementById("list-checkbox-"+i).checked;
+        // If the owner is not checked, this project is still under the owner's doc
+        // BAD PRACTICE
+        if (checked || valid_members[i].id==user.email.substring(0,8)){
+          members.push(valid_members[i].id);
+          let studentRef = firestore.doc("students/" + valid_members[i].id);
+          studentRef.update({
+            projects: firebase.firestore.FieldValue.arrayUnion(project_id)
+          })
+
+        }
       }
+    
+
       firestore.doc("projects/" + project_id).set({
         title: details.project_name,
         unit: details.unit_name,
@@ -100,6 +101,7 @@ function create_project(){
         window.location.replace("projects.html");
       });
     })
+
   }
 }
 
@@ -157,7 +159,7 @@ window.onload = function(){
 
   var firestore = firebase.firestore();
 
-  firestore.collection("students").get().then(function(querySnapshot){
+  firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
       valid_members.push(doc.data());
     })

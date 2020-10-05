@@ -6,6 +6,7 @@ function details(){
     const hours = document.getElementById("hours")
     const btn_submit = document.getElementById("submit_progress")
     const tables_area = document.getElementById("tables_area")
+    const projecttitle = document.getElementById("project_title")
 
     const db = firebase.firestore()
     
@@ -22,6 +23,10 @@ function details(){
     
     projRef.get().then(function(doc) {
         if (doc.exists) {
+            //Write project title on top
+            let u = doc.data().unit
+            let t = doc.data().title
+            projecttitle.innerHTML = u + ": "+ t
             // create member option using DOM
             let members = doc.data().members
             firebase.auth().onAuthStateChanged(function(user) {

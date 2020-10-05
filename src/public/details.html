@@ -2,7 +2,7 @@
 	<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project Details</title>
+    <title id="project_title">Project Details</title>
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
@@ -53,6 +53,10 @@
       width:800px;
       border:1px solid #ACD8F0;
     }
+
+    .lect-only, .student-only, .admin-only{
+        display: none;
+    }
     </style>
 
 </head>
@@ -94,7 +98,7 @@
 					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
 						<div class="mdl-card__title1">
             </div>
-						<div class="mdl-grid">
+						<div class="mdl-grid student-only admin-only">
 							<div class="mdl-cell mdl-cell--12-col">
                 <h4 style="font-weight: bold;">Add Progress</h4></div>
 							<div class="mdl-cell mdl-cell--6-col">
