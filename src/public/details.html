@@ -219,9 +219,9 @@
             <ul id="chat"></ul>
             <br>
             <!--input message-->
-            <form id="message-form">
+            <form id="message-form" onsubmit="return false" method="POST">
               <input type="text" name="usermsg" style="height:30px" size="110" placeholder="Enter message here">
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Send</button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id=form_btn>Send</button>
             </form>
           </div>
         </center>
