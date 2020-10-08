@@ -1,3 +1,4 @@
+<<<<<<< src/public/details.html
 <html>
 
 <head>
@@ -96,6 +97,10 @@
       width: 700px;
       word-wrap: break-word;
     }
+    .lect-only, .student-only, .admin-only{
+        display: none;
+    }
+
   </style>
 
 </head>
@@ -233,3 +238,198 @@
 </body>
 
 </html>
+=======
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title id="project_title">Project Details</title>
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="styles/style.css">
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet'>
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+		<!--from https://material.io/develop/web/docs/getting-started-->
+		<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!--BELOW IS TO INITIALIZE FIREBASE @david-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-firestore.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!--This script initialize firebase-->
+    <script src="js/fireBase.js"></script>
+    <!--This script track user-->
+    <script src="js/track_user.js"></script>
+    <script src="js/details.js"></script>
+
+
+    <style>
+      .chat-width{
+        width:700px;
+    }
+      #chatbox {
+      text-align:middle;
+      margin:0 auto;
+      margin-bottom:25px;
+      padding:10px;
+      background:#fff;
+      height:270px;
+      width:750px;
+      border:1px solid #ACD8F0;
+      overflow:auto;
+    }
+      #wrapper {
+      margin:0 auto;
+      padding-bottom:25px;
+      background:#EBF4FB;
+      width:800px;
+      border:1px solid #ACD8F0;
+    }
+
+    .lect-only, .student-only, .admin-only{
+        display: none;
+    }
+    </style>
+
+</head>
+
+<!-- Simple header with scrollable tabs. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='projects.html';">
+      <i class="material-icons">home</i>
+    </button>
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Project Details</span>
+      <div class="mdl-layout-spacer"></div>
+      <!--Display the current user -->
+      <span id="displayUserUI" class="mdl-layout-title">Loading</span>
+      <span>&nbsp;&nbsp;</span>
+      <button onclick="location.href='user_profile.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+        <i class="material-icons" id="logoutButton">account_circle</i>
+        </button>
+      <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+      <i class="material-icons" id="logoutButton">logout</i>
+      </button>
+    </div>
+    <!-- Tabs -->
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tasks Log</a>
+      <a href="#scroll-tab-comments" class="mdl-layout__tab">Comments</a>
+      <a href="#scroll-tab-graph" class="mdl-layout__tab">Graph</a>
+
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+      <div class="page-content">
+						<center>
+
+						<div class="mdl-cell mdl-cell--8-col">
+					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+						<div class="mdl-card__title1">
+            </div>
+						<div class="mdl-grid student-only admin-only">
+							<div class="mdl-cell mdl-cell--12-col">
+                <h4 style="font-weight: bold;">Add Progress</h4></div>
+							<div class="mdl-cell mdl-cell--6-col">
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+                  <select class="mdl-textfield__input" id="namelist" required>
+                    <!--options here: I want this to be dynamic from what I received from project creation-->
+                  </select>
+                  <label class="mdl-textfield__label" for="namelist">Member Name</label>
+
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+                  <select class="mdl-textfield__input" id="taskslist" required>
+                    <!--options here: I want this to be dynamic from what I received from project creation-->
+                  </select>
+                  <label class="mdl-textfield__label" for="taskslist">Task</label>
+                </div>
+
+                <h5>% Contributed for This Session</h5>
+                <!-- Default Slider -->
+                <div class="mdl-cell mdl-cell--6-col">
+                  <input id="current_progress" class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="0" tabindex="0" step="5" required>
+                </div>
+                <p id="percent"></p>
+              </div>
+
+                <div class="mdl-cell mdl-cell--6-col">
+                  <h5>Hours Spent for this session</h5>
+                  <div class="mdl-cell mdl-cell--6-col">
+                  <form action="#">
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="hours" required>
+                      <label class="mdl-textfield__label" for="sample2">Hours...</label>
+                      <span class="mdl-textfield__error">Input is not a number!</span>
+                    </div>
+                  </form></div>
+                  <br><br><br>
+                  <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" id="submit_progress" disabled >
+                    Submit
+                  </button>
+                </div></div></div></div>
+
+                <div class="mdl-cell mdl-cell--8-col" >
+                  <div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+                    <div class="mdl-card__title1">
+                    </div>
+                    <div class="mdl-grid"><div class="mdl-cell mdl-cell--12-col">
+                      <h4 style="font-weight: bold;">Progress History</h4></div>
+
+                      <div class="mdl-cell mdl-cell--12-col" id="tables_area">
+
+                </div>
+
+                </div></div></div></div>
+                </section>
+
+                <!--Comments section-->
+    <section class="mdl-layout__tab-panel" id="scroll-tab-comments">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--8-col">
+        <div id= wrapper>
+
+      <!--Chat log-->
+      <div class="mdl-cell mdl-cell--8-col">
+          <div id=chatbox></div>
+      </div>
+
+      <!--inner grid-->
+      <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--10-col">
+      <!--input message-->
+      <form name="message" action="">
+        <input name="usermsg" style = "height:30px" type="text" id="usermsg" size="103" />
+      </form>
+      </div>
+
+      <!--send button-->
+      <div class="mdl-cell mdl-cell--1-col">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Send</button>
+      </div>
+
+      </div>
+
+      </div>
+      </div>
+      </section>
+
+    </main>
+  </div>
+
+</html>
+>>>>>>> src/public/details.html

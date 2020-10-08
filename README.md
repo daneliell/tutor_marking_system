@@ -18,3 +18,6 @@ https://trello.com/invite/b/lLjteMCA/2e0900bdc2126b6e8493a4c7991e57da/fit2102-ta
 
 Time Tracker (simple spreadsheet):
 https://docs.google.com/spreadsheets/d/1M0m6avt1vSrtsIa6Iv6LtX6i1aBVbPSX363I1N-oR14/edit#gid=0
+
+Quality Assurance Testing Report
+https://docs.google.com/document/d/161UIxHS39d8RiCazhTTi0nmB9jHulJQjcbx2LfZjw_A/edit?usp=sharing

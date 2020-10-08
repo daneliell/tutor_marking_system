@@ -64,25 +64,43 @@ function create_project(){
     for (let i = 0; i < tasks.length; i++){
       tasks[i] = tasks[i].trim();
     }
+    
+    
+    //Creating a map to store total progress
+    let obj={}
+    tasks.forEach(e=>obj[e]=0)
 
-    let members = [];
-    for (let i = 0; i < valid_members.length; i++){
-      let checked = document.getElementById("list-checkbox-"+i).checked;
-      if (checked == true){
-        members.push(valid_members[i].id);
-        let studentRef = firestore.doc("students/" + valid_members[i].id);
-        let projects_array = [];
-        studentRef.get().then(function(doc){
-          if (doc.exists){
-            projects_array = doc.data() ;
-          }
-        })
-        projects_array.push(project_id);
-        studentRef.update({
-          projects: projects_array
-        })
+    firebase.auth().onAuthStateChanged(function(user) {
+      let members = [];
+      for (let i = 0; i < valid_members.length; i++){
+        let checked = document.getElementById("list-checkbox-"+i).checked;
+        // If the owner is not checked, this project is still under the owner's doc
+        // BAD PRACTICE
+        if (checked || valid_members[i].id==user.email.substring(0,8)){
+          members.push(valid_members[i].id);
+          let studentRef = firestore.doc("students/" + valid_members[i].id);
+          studentRef.update({
+            projects: firebase.firestore.FieldValue.arrayUnion(project_id)
+          })
+
+        }
       }
-    }
+    
+
+      firestore.doc("projects/" + project_id).set({
+        title: details.project_name,
+        unit: details.unit_name,
+        due_date: details.due_date,
+        members: members,
+        tasks: tasks,
+        log:[],
+        total_progress: obj
+
+
+      }).then(function(){
+        window.location.replace("projects.html");
+      });
+    })
 
     firestore.doc("projects/" + project_id).set({
       title: details.project_name,
@@ -102,7 +120,28 @@ function create_project(){
 window.onload = function(){
   // Gets today's date
   let today = new Date();
-  let date = today.getFullYear() + "-0" + (today.getMonth()+1) + "-" + today.getDate();
+  let date = "";
+  let year = today.getFullYear();
+  let month = "";
+  let day = "";
+  if ((today.getMonth()+1) >= 10)
+  {
+    month = today.getMonth()+1
+  }
+  else
+  {
+    month = "0" + (today.getMonth()+1)
+  }
+  if (today.getDate() < 10)
+  {
+    day = "0" + today.getDate();
+  }
+  else
+  {
+    day = today.getDate();
+  }
+  date = year + "-" + month + "-" + day;
+
   // Provides an error if due date is in the past
   let due_date = document.getElementById("due_date");
   due_date.setAttribute("min", date);
@@ -131,7 +170,7 @@ window.onload = function(){
 
   var firestore = firebase.firestore();
 
-  firestore.collection("students").get().then(function(querySnapshot){
+  firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
       valid_members.push(doc.data());
     })
