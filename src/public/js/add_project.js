@@ -65,7 +65,6 @@ function create_project(){
       tasks[i] = tasks[i].trim();
     }
 
-
     //Creating a map to store total progress
     let obj={}
     tasks.forEach(e=>obj[e]=0)
@@ -82,10 +81,8 @@ function create_project(){
           studentRef.update({
             projects: firebase.firestore.FieldValue.arrayUnion(project_id)
           })
-
         }
       }
-
 
       firestore.doc("projects/" + project_id).set({
         title: details.project_name,
