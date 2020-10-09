@@ -9,9 +9,9 @@ function details(){
     const projecttitle = document.getElementById("project_title")
 
     const db = firebase.firestore()
-    
+
     // Get project ID from URL passed from add_projects.js
-    var url_string = window.location.href; 
+    var url_string = window.location.href;
     var url = new URL(url_string);
     var pname = decodeURIComponent(url.searchParams.get("project"));
     // Get current project document
@@ -19,8 +19,8 @@ function details(){
     const studentRef = db.collection("students")
 
     // console.log(localStorage.getItem("projectName"))
-    
-    
+
+
     projRef.get().then(function(doc) {
         if (doc.exists) {
             //Write project title on top
@@ -51,8 +51,8 @@ function details(){
                     })
                 }
             });
-            
-            // Get tasks list 
+
+            // Get tasks list
             let task_arr = doc.data().tasks
             let progress = doc.data().total_progress
             for (t in task_arr){
@@ -85,7 +85,7 @@ function details(){
                 const time_text = document.createTextNode("Time")
                 time_header.appendChild(time_text)
                 new_hrow.appendChild(time_header)
-                
+
                 //Add Member column
                 //HTML code: <th class="mdl-data-table__cell--non-numeric">Member</th>
                 const member_header = document.createElement("th")
@@ -93,26 +93,26 @@ function details(){
                 const member_text = document.createTextNode("Member")
                 member_header.appendChild(member_text)
                 new_hrow.appendChild(member_header)
-                
+
                 //Add Progess column
                 //HTML code:<th>Progress (%)</th>
                 const progress_header = document.createElement("th")
                 const progress_text = document.createTextNode("Progress (%)")
                 progress_header.appendChild(progress_text)
                 new_hrow.appendChild(progress_header)
-                
+
                 //Add Time spent column
                 //HTML code: <th>Time Spent (hours)</th>
                 const spent_header = document.createElement("th")
                 const spent_text = document.createTextNode("Time Spent (hours)")
                 spent_header.appendChild(spent_text)
                 new_hrow.appendChild(spent_header)
-                
+
                 //Append the header row to header atb
                 new_header.appendChild(new_hrow)
                 //Append header row w/ titles to the table
                 new_table.appendChild(new_header)
-                
+
                 //Create body
                 const new_body = document.createElement("tbody")
                 new_body.setAttribute("id",task_arr[t])
@@ -121,7 +121,7 @@ function details(){
                 new_body.appendChild(blank_row)
                 //Append body to table
                 new_table.appendChild(new_body)
-                
+
                 //Append body to the area and set break line
                 tables_area.appendChild(new_table)
                 tables_area.appendChild(document.createElement("br"))
@@ -166,7 +166,7 @@ function details(){
                 percent.innerHTML = this.value+"%";
                 enable_button();
             })
-            
+
             //Check if button should be enabled when there is input at hours field
             hours.addEventListener("input", function(){
                 enable_button();
@@ -175,15 +175,15 @@ function details(){
             taskslist.addEventListener("input",function(){
                 enable_button();
             })
-            
-        } 
+
+        }
         else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
     });
 
-    
+
     function update_log(){
         let in_percent=Number(slider.value)
         let in_hours = Number(hours.value)

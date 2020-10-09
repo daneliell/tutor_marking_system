@@ -9,7 +9,7 @@ function enable_button(){
       checked = true;
     }
   }
-  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' ||  document.getElementById("tasks").value == '' || due_date.checkValidity() == false || checked == false)
+  if (document.getElementById("project_name").value == '' || document.getElementById("unit_name").value == '' || document.getElementById("due_date").value == '' || due_date.checkValidity() == false || checked == false)
   {
     button.disabled = true;
   }
@@ -64,8 +64,8 @@ function create_project(){
     for (let i = 0; i < tasks.length; i++){
       tasks[i] = tasks[i].trim();
     }
-    
-    
+
+
     //Creating a map to store total progress
     let obj={}
     tasks.forEach(e=>obj[e]=0)
@@ -85,7 +85,7 @@ function create_project(){
 
         }
       }
-    
+
 
       firestore.doc("projects/" + project_id).set({
         title: details.project_name,
@@ -162,9 +162,6 @@ window.onload = function(){
       enable_button();
   });
   members.addEventListener('input', function () {
-      enable_button();
-  });
-  tasks.addEventListener('input', function () {
       enable_button();
   });
 
