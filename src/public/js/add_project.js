@@ -91,6 +91,8 @@ function create_project(){
         members: members,
         tasks: tasks,
         log:[],
+        estimate:[],
+        chatlog:[],
         total_progress: obj
 
 
@@ -98,18 +100,7 @@ function create_project(){
         window.location.replace("projects.html");
       });
     })
-
-    firestore.doc("projects/" + project_id).set({
-      title: details.project_name,
-      unit: details.unit_name,
-      due_date: details.due_date,
-      members: members,
-      tasks: tasks,
-      log:[],
-      chatlog:[]
-    }).then(function(){
-      window.location.replace("projects.html");
-    });
+    
   }
 }
 
