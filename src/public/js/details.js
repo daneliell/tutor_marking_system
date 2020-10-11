@@ -7,6 +7,8 @@ function details(){
     const btn_submit = document.getElementById("submit_progress")
     const tables_area = document.getElementById("tables_area")
     const projecttitle = document.getElementById("project_title")
+    const tasks = document.getElementById("tasks");
+    const submit_task = document.getElementById("submit_task");
 
     const db = firebase.firestore()
 
@@ -20,6 +22,55 @@ function details(){
 
     // console.log(localStorage.getItem("projectName"))
 
+    // Prevent empty tasks field from being submitted
+    tasks.addEventListener("input", function(){
+        if (tasks.value != ""){
+          submit_task.disabled = false;
+        }
+        else{
+          submit_task.disabled = true;
+        }
+    })
+
+    // Alert to confirm tasks submission
+    submit_task.addEventListener("click", function(){
+        const warning = confirm("You cannot delete added tasks later.\nAre you sure you want to add tasks?")
+        if (warning){
+            add_tasks()
+        }
+    });
+
+    // Adds tasks to fireBase
+    function add_tasks() {
+      let new_tasks = tasks.value.split(",");
+      for (let i = 0; i < new_tasks.length; i++){
+        new_tasks[i] = new_tasks[i].trim();
+      }
+      projRef.get().then(function(doc){
+        let task_list = doc.data().tasks;
+        for (let j = 0; j < new_tasks.length; j++){
+          task_list.push(new_tasks[j])
+        }
+
+        let progress = doc.data().total_progress;
+        let obj = {};
+        for (k in task_list){
+          if (progress[task_list[k]] == undefined){
+            obj[task_list[k]] = 0;
+          }
+          else{
+            obj[task_list[k]] = progress[task_list[k]];
+          }
+        }
+
+        projRef.update({
+          tasks: task_list,
+          total_progress: obj
+        }).then(function(){
+          location.reload();
+        });
+      })
+    }
 
     projRef.get().then(function(doc) {
         if (doc.exists) {

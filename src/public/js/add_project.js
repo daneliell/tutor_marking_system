@@ -166,7 +166,9 @@ window.onload = function(){
 
   firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
-      valid_members.push(doc.data());
+      if (doc.data().status == "student"){
+        valid_members.push(doc.data());
+      }
     })
   }).then(function(){
     let list = document.getElementById("members");
