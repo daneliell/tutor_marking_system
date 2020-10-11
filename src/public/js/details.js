@@ -81,7 +81,7 @@ function details(){
             // Get tasks list
             let task_arr = doc.data().tasks
             let progress = doc.data().total_progress
-
+            
             for (t in task_arr){
 
                 //EST section: Put all tasks as option unconditionally
@@ -95,7 +95,7 @@ function details(){
                 e_taskslist.appendChild(newOption);
 
                 // LOG section: Put task as option only if the total progress is less than 100
-                if (progress[task_arr[t]]<100){
+                if (progress!=undefined && progress[task_arr[t]]<100 ){
                     const newOption = document.createElement('option');
                     const optionText = document.createTextNode(task_arr[t]);
                     // set option text
@@ -222,18 +222,22 @@ function details(){
             }
 
             
-            //LOG section: Boundary check on input fields, disable button if there exist invalid values
+            //Boundary check on input fields, disable submit buttons if there exist invalid values
             //Enables button when conditions are met
             function enable_button(){
                 const due = doc.data().due_date
                 const now = new Date()
+				// LOG section
                 if (Number(slider.value)>0 && Number(hours.value)>0 && taskslist.value!="" || Date.parse(due)<now){
                     btn_submit.disabled=false
                 }
                 else{
                     btn_submit.disabled=true
                 }
-                if (taskslist.value!="" || Date.parse(due)<now){
+				
+				// EST section
+				// Users are allowed to submit 0 as percent
+                if (e_taskslist.value!="" || Date.parse(due)<now){
                     submit_est.disabled=false
                 }
                 else{
@@ -341,8 +345,20 @@ function details(){
                 tasks: firebase.firestore.FieldValue.arrayUnion(in_task)
             })
 
+            for (e in estimate_list){
+                // Accumulate the total estimated contribution on task, not stored
+                if (estimate_list[e].task==in_task && estimate_list[e]!=est){
+                    acc_percent+=estimate_list[e].percent
+                }
+            }
+
+            // If the entry will make total>100, make it so that it is within 100
+            if (acc_percent+in_percent>100){
+                in_percent = 100 - acc_percent
+            }
+
             // If this is a new task created by student, add a new field in total progress
-            if (doc.data().total_progress[in_task]==undefined){ 
+            else if (doc.data().total_progress[in_task]==undefined){ 
                 projRef.update({
                     ["total_progress." + in_task]: 0
                 })
@@ -359,17 +375,6 @@ function details(){
                 
             }
 
-            for (e in estimate_list){
-                // Accumulate the total estimated contribution on task, not stored
-                if (estimate_list[e].task==in_task && estimate_list[e]!=est){
-                    acc_percent+=estimate_list[e].percent
-                }
-            }
-
-            // If the entry will make total>100, make it so that it is within 100
-            if (acc_percent+in_percent>100){
-                in_percent = 100 - acc_percent
-            }
             
             // Updates will only be done when the actual in_percent is more than 0
             // If the student is already contributing (means he wants to update his contribution)
@@ -391,7 +396,7 @@ function details(){
                 )
             })
             
-            window.location.reload()
+            // window.location.reload()
             
         })
 
