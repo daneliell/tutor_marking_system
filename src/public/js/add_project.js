@@ -77,7 +77,6 @@ function create_project(){
     if (tasks.length>0){
       tasks.forEach(e=>obj[e]=0)
     }
- 
     firebase.auth().onAuthStateChanged(function(user) {
       // Creator/owner is always in the project
       let members = [user.email.substring(0,8)];
@@ -88,7 +87,7 @@ function create_project(){
           members.push(valid_members[i].id);
         }
       }
-      
+
       // Update their document
       for (m in members){
         let studentRef = firestore.doc("students/" + members[m]);
@@ -110,10 +109,9 @@ function create_project(){
         }).then(function(){
           window.location.replace("projects.html");
         });
-     
 
     })
-    
+
   }
 }
 

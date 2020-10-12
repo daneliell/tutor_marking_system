@@ -30,21 +30,31 @@ window.onload = function(){
         }
         else if (doc.data().status == "lecturer")
         {
-          for (let i = 0; i < doc.data().projects.length; i++)
-          {
-            // Pushes every project student is involved into array
-            firestore.doc("projects/" + doc.data().projects[i]).get().then(function(project) {
-              if (project.data() != undefined) {
-                projects_list.push(project.data());
-              }
-            }).then(function(){
-              // If statement to only allow function to be called once after
-              // all projects have been added
-              if (i == (doc.data().projects.length-1))
-              {
-                generate_html("1");
-              }
-            });
+          if (doc.data().projects.length == 0){
+            let help_text = document.createTextNode("You have no active projects.");
+            let title = document.createElement("h5");
+            title.appendChild(help_text);
+            area.innerHTML += "<br>";
+            area.appendChild(title);
+            area.innerHTML += "<br>";
+          }
+          else {
+            for (let i = 0; i < doc.data().projects.length; i++)
+            {
+              // Pushes every project student is involved into array
+              firestore.doc("projects/" + doc.data().projects[i]).get().then(function(project) {
+                if (project.data() != undefined) {
+                  projects_list.push(project.data());
+                }
+              }).then(function(){
+                // If statement to only allow function to be called once after
+                // all projects have been added
+                if (i == (doc.data().projects.length-1))
+                {
+                  generate_html("1");
+                }
+              });
+            }
           }
         }
         else
