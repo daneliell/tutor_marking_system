@@ -369,7 +369,7 @@ function details(){
                 // Look for existing member+task combination
                 if (estimate_list[e].task == in_task && estimate_list[e].member==in_member){
                     est = estimate_list[e];
-                    console.log(est)
+                    
                     break;
                 }
                 
@@ -396,7 +396,7 @@ function details(){
                 )
             })
             
-            // window.location.reload()
+            window.location.reload()
             
         })
 

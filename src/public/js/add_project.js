@@ -79,20 +79,24 @@ function create_project(){
     }
  
     firebase.auth().onAuthStateChanged(function(user) {
-      let members = [];
+      // Creator/owner is always in the project
+      let members = [user.email.substring(0,8)];
+      // Get all the members
       for (let i = 0; i < valid_members.length; i++){
         let checked = document.getElementById("list-checkbox-"+i).checked;
-        // If the owner is not checked, this project is still under the owner's doc
-        // BAD PRACTICE
-        if (checked || valid_members[i].id==user.email.substring(0,8)){
+        if (checked){
           members.push(valid_members[i].id);
-          let studentRef = firestore.doc("students/" + valid_members[i].id);
-          studentRef.update({
-            projects: firebase.firestore.FieldValue.arrayUnion(project_id)
-          })
         }
       }
       
+      // Update their document
+      for (m in members){
+        let studentRef = firestore.doc("students/" + members[m]);
+          studentRef.update({
+            projects: firebase.firestore.FieldValue.arrayUnion(project_id)
+          })
+      }
+
         firestore.doc("projects/" + project_id).set({
           title: details.project_name,
           unit: details.unit_name,
@@ -166,7 +170,10 @@ window.onload = function(){
 
   firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
-      valid_members.push(doc.data());
+      if (doc.data().status == "student"){
+        valid_members.push(doc.data());
+      }
+
     })
   }).then(function(){
     let list = document.getElementById("members");
