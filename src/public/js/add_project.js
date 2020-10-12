@@ -28,7 +28,7 @@ function create_project(){
       tasks: document.getElementById("tasks").value,
     }
 
-  if (details.project_name == '' || details.unit_name == '' || details.due_date == '' || details.members == '' || details.tasks == '')
+  if (details.project_name == '' || details.unit_name == '' || details.due_date == '' || details.members == '')
   {
     // If any of the fields are empty, display a snackbar
     document.querySelector('.mdl-js-snackbar');
@@ -60,56 +60,60 @@ function create_project(){
 
     let project_id = details.project_name + details.unit_name;
 
-    let tasks = details.tasks.split(",");
-    for (let i = 0; i < tasks.length; i++){
-      tasks[i] = tasks[i].trim();
+    // Handle when no task is given
+    if (details.tasks!=""){
+      let tasks = details.tasks.split(",");
+      for (let i = 0; i < tasks.length; i++){
+        tasks[i] = tasks[i].trim();
+      }
+    }
+    else{
+      tasks=[]
     }
 
     //Creating a map to store total progress
+    // Workaround when no tasks are added
     let obj={}
-    tasks.forEach(e=>obj[e]=0)
-
+    if (tasks.length>0){
+      tasks.forEach(e=>obj[e]=0)
+    }
+ 
     firebase.auth().onAuthStateChanged(function(user) {
-      let members = [];
+      // Creator/owner is always in the project
+      let members = [user.email.substring(0,8)];
+      // Get all the members
       for (let i = 0; i < valid_members.length; i++){
         let checked = document.getElementById("list-checkbox-"+i).checked;
-        // If the owner is not checked, this project is still under the owner's doc
-        // BAD PRACTICE
-        if (checked || valid_members[i].id==user.email.substring(0,8)){
+        if (checked){
           members.push(valid_members[i].id);
-          let studentRef = firestore.doc("students/" + valid_members[i].id);
+        }
+      }
+      
+      // Update their document
+      for (m in members){
+        let studentRef = firestore.doc("students/" + members[m]);
           studentRef.update({
             projects: firebase.firestore.FieldValue.arrayUnion(project_id)
           })
-        }
       }
 
-      firestore.doc("projects/" + project_id).set({
-        title: details.project_name,
-        unit: details.unit_name,
-        due_date: details.due_date,
-        members: members,
-        tasks: tasks,
-        log:[],
-        total_progress: obj
+        firestore.doc("projects/" + project_id).set({
+          title: details.project_name,
+          unit: details.unit_name,
+          due_date: details.due_date,
+          members: members,
+          tasks: tasks,
+          log:[],
+          estimate:[],
+          chatlog:[],
+          total_progress: obj
+        }).then(function(){
+          window.location.replace("projects.html");
+        });
+     
 
-
-      }).then(function(){
-        window.location.replace("projects.html");
-      });
     })
-
-    firestore.doc("projects/" + project_id).set({
-      title: details.project_name,
-      unit: details.unit_name,
-      due_date: details.due_date,
-      members: members,
-      tasks: tasks,
-      log:[],
-      chatlog:[]
-    }).then(function(){
-      window.location.replace("projects.html");
-    });
+    
   }
 }
 
@@ -166,7 +170,10 @@ window.onload = function(){
 
   firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
-      valid_members.push(doc.data());
+      if (doc.data().status == "student"){
+        valid_members.push(doc.data());
+      }
+
     })
   }).then(function(){
     let list = document.getElementById("members");

@@ -29,7 +29,6 @@
   <script src="js/fireBase.js"></script>
   <!--This script track user-->
   <script src="js/track_user.js"></script>
-  <script src="js/details.js"></script>
 
 
   <style>
@@ -104,6 +103,7 @@
 
 </head>
 
+<body>
 <!-- Simple header with scrollable tabs. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
@@ -128,8 +128,10 @@
     <!-- Tabs -->
     <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
       <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tasks Log</a>
+      <a href="#scroll-tab-estimation" class="mdl-layout__tab">Estimation</a>
       <a href="#scroll-tab-comments" class="mdl-layout__tab">Comments</a>
       <a href="#scroll-tab-graph" class="mdl-layout__tab">Graph</a>
+      
 
     </div>
   </header>
@@ -213,6 +215,85 @@
       </div>
     </section>
 
+    <section class="mdl-layout__tab-panel" id="scroll-tab-estimation">
+    
+      <center>
+      <div class="mdl-cell mdl-cell--8-col">
+        <div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+          <div class="mdl-card__title1">
+          </div>
+          <div class="mdl-grid student-only admin-only">
+            <div class="mdl-cell mdl-cell--12-col">
+              <h4 style="font-weight: bold;">Add New Contribution Estimate</h4>
+            </div>
+            <div class="mdl-cell mdl-cell--6-col">
+
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+                <select class="mdl-textfield__input" id="e_namelist" required>
+                  <!--options here: I want this to be dynamic from what I received from project creation-->
+                </select>
+                <label class="mdl-textfield__label" for="e_namelist">Member Name</label>
+
+              </div>
+
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">         
+                <input class="mdl-textfield__input" list="e_taskslist" name="e_tasklistname" required>
+
+                <datalist id="e_taskslist" required>
+                  <!--options here: I want this to be dynamic from what I received from project creation-->
+                </datalist>
+                <label class="mdl-textfield__label" for="e_taskslist">Task</label>
+              </div>
+
+              <h5>Estimated Contribution (%)</h5>
+              <!-- Default Slider -->
+              <div class="mdl-cell mdl-cell--6-col">
+                <input id="e_current_progress" class="mdl-slider mdl-js-slider" type="range" min="0" max="100"
+                  value="0" tabindex="0" step="5" required>
+              </div>
+              <p id="e_percent"></p>
+            </div>
+
+            <div class="mdl-cell mdl-cell--6-col">
+              
+              <br><br><br>
+              <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised"
+                id="submit_est" disabled>
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mdl-cell mdl-cell--8-col">
+        <div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+          <div class="mdl-card__title1">
+          </div>
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+              <h4 style="font-weight: bold;">Contribution Estimates</h4>
+            </div>
+
+            <div class="mdl-cell mdl-cell--12-col" id="est_area">
+              <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                  <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Tasks</th>
+                    <th class="mdl-data-table__cell--non-numeric">Member</th>
+                    <th>Estimated Contribution</th>
+                  </tr>
+                  <tbody id="est-table">
+                    <tr></tr>
+                  </tbody>
+                </thead>
+
+              </table>
+
+            </div>
+    
+    </section>
+
     <!--Comments section-->
     <section class="mdl-layout__tab-panel" id="scroll-tab-comments">
       <center>
@@ -230,5 +311,7 @@
     </section>
   </main>
 </div>
-
+</body>
+<script src="js/details.js"></script>
+<!-- <script src="js/estimation.js"></script> -->
 </html>
