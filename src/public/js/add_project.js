@@ -62,7 +62,7 @@ function create_project(){
 
     // Handle when no task is given
     if (details.tasks!=""){
-      let tasks = details.tasks.split(",");
+      tasks = details.tasks.split(",");
       for (let i = 0; i < tasks.length; i++){
         tasks[i] = tasks[i].trim();
       }
