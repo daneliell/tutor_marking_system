@@ -395,11 +395,11 @@ function details(){
                 )
             })
             
-            window.location.reload()
+            
             
         })
 
-        
+        window.location.reload()
 
     }
 
