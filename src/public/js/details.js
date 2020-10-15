@@ -346,6 +346,14 @@ function details(){
             })
 
             for (e in estimate_list){
+                // Look for existing member+task combination
+                if (estimate_list[e].task == in_task && estimate_list[e].member==in_member){
+                    est = estimate_list[e];
+                    break;
+                }    
+            }
+
+            for (e in estimate_list){
                  // Accumulate the total estimated contribution on task, not stored
                  if (estimate_list[e].task==in_task && estimate_list[e]!=est){
                     acc_percent+=estimate_list[e].percent
@@ -365,14 +373,7 @@ function details(){
             }
 
             
-            for (e in estimate_list){
-                // Look for existing member+task combination
-                if (estimate_list[e].task == in_task && estimate_list[e].member==in_member){
-                    est = estimate_list[e];
-                    break;
-                }
-                
-            }
+
 
             
             // Updates will only be done when the actual in_percent is more than 0
