@@ -345,20 +345,20 @@ function details(){
                 tasks: firebase.firestore.FieldValue.arrayUnion(in_task)
             })
 
-            // for (e in estimate_list){
-            //     // Accumulate the total estimated contribution on task, not stored
-            //     if (estimate_list[e].task==in_task && estimate_list[e]!=est){
-            //         acc_percent+=estimate_list[e].percent
-            //     }
-            // }
+            for (e in estimate_list){
+                // Accumulate the total estimated contribution on task, not stored
+                if (estimate_list[e].task==in_task && estimate_list[e]!=est){
+                    acc_percent+=estimate_list[e].percent
+                }
+            }
 
             // If the entry will make total>100, make it so that it is within 100
-            // if (acc_percent+in_percent>100){
-            //     in_percent = 100 - acc_percent
-            // }
+            if (acc_percent+in_percent>100){
+                in_percent = 100 - acc_percent
+            }
 
             // If this is a new task created by student, add a new field in total progress
-            if (doc.data().total_progress[in_task]==undefined){ 
+            else if (doc.data().total_progress[in_task]==undefined){ 
                 projRef.update({
                     ["total_progress." + in_task]: 0
                 })
@@ -369,6 +369,7 @@ function details(){
                 // Look for existing member+task combination
                 if (estimate_list[e].task == in_task && estimate_list[e].member==in_member){
                     est = estimate_list[e];
+                    
                     break;
                 }
                 
@@ -395,11 +396,11 @@ function details(){
                 )
             })
             
-            
+            window.location.reload()
             
         })
 
-        window.location.reload()
+        
 
     }
 
