@@ -27,6 +27,7 @@ var mainApp = {};
                     if (docSnapShot.exists) {
                         console.log("Document already exists!")
                         const status = docSnapShot.data().status
+                        const email = docSnapShot.data().email
                         var displayStatus = status
 
                         if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
@@ -60,14 +61,23 @@ var mainApp = {};
                         }
                     } else {
                         // create new data
-                        displayStatusUI.textContent = "Status: Student"
-                        studentRef.set({
+                        var newUserRef = {
                             id: docID,
                             name: userName,
                             email: userEmail,
                             status: "student",
                             projects: []
-                        }, {merge: true})
+                        }
+                        if(userEmail.includes("@monash.edu")){
+                            newUserRef.status = "lecturer"
+                            displayStatusUI.textContent = "Status: Lecturer"
+                            displayUserUI.textContent = displayUserUI.textContent + String(" (L)")
+                        }
+                        else{
+                            displayStatusUI.textContent = "Status: Student"
+                            displayUserUI.textContent = displayUserUI.textContent + String(" (S)")
+                        }
+                        studentRef.set(newUserRef, {merge: true})
                         .then(function() {
                             console.log("Document successfully created!");
                         })
