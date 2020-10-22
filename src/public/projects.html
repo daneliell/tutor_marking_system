@@ -1,9 +1,15 @@
 <html>
 	<head>
     <style>
+			.demo-card-wide.mdl-card {
+			  width: 100%;
+			}
       .lect-only, .student-only, .admin-only{
         display: none;
       }
+			h5 {
+				text-align: center;
+			}
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,13 +64,15 @@
 		  </header>
 		  <main class="mdl-layout__content">
 		    <div class="page-content">
-					<center>
+					<!--<center>
 					<div class="mdl-cell mdl-cell--10-col">
 						<h5> Projects List </h5>
 						<div class="demo-card-wide.mdl-card mdl-shadow--2dp" id="area">
 						</div></div>
-						<br>
-
+						<br>-->
+						<h5> Projects List </h5>
+						<div class="mdl-grid" id="area"></div>
+					<center>
 					<div class="lect-only admin-only">
 						&nbsp &nbsp
             <button class="mdc-button mdc-button--raised lect-only admin-only" onclick="location.href='add_project.html'" type="button">
@@ -75,6 +83,7 @@
               <span class="mdc-button__label lect-only admin-only" style="font-size:9pt;">Add New</span>
             </button>
 					</div>
+				</center>
 
         </div>
 		  </main>
