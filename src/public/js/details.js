@@ -8,16 +8,20 @@ function details(){
     const btn_submit = document.getElementById("submit_progress")
     const tables_area = document.getElementById("tables_area")
     const projecttitle = document.getElementById("project_title")
+    const projectheader = document.getElementById("project_header")
 
     // HTML elements in estimation
     const e_slider = document.getElementById("e_current_progress");
     const e_percent = document.getElementById("e_percent");
     const e_namelist = document.getElementById("e_namelist")
-    const e_taskslistname = document.getElementsByName("e_tasklistname")[0]
+    const e_taskslistname = document.getElementsByName("e_tasklist")
     const e_taskslist = document.getElementById("e_taskslist")
     const submit_est = document.getElementById("submit_est")
     const est_table = document.getElementById("est-table")
+    const tasksbox = document.getElementById("tasksbox")
+    const btn_tasksbox = document.getElementById("btn_tasksbox")
 
+    // Firestore
     const db = firebase.firestore()
 
     // Get project ID from URL passed from add_projects.js
@@ -33,6 +37,7 @@ function details(){
             let u = doc.data().unit
             let t = doc.data().title
             projecttitle.innerHTML = u + ": "+ t
+            projectheader.innerHTML = u + ": "+ t
             // create member option using DOM
             let members = doc.data().members
 
@@ -80,15 +85,16 @@ function details(){
 
             // Get tasks list
             let task_arr = doc.data().tasks
+            task_arr.sort()
             let progress = doc.data().total_progress
             
             for (t in task_arr){
 
                 //EST section: Put all tasks as option unconditionally
                 const newOption = document.createElement('option');
-                // const optionText = document.createTextNode(task_arr[t]);
+                const optionText = document.createTextNode(task_arr[t]);
                 // set option text
-                // newOption.appendChild(optionText);
+                newOption.appendChild(optionText);
                 // and option value
                 newOption.setAttribute('value',task_arr[t]);
                 // add the option to the select box
@@ -243,6 +249,14 @@ function details(){
                 else{
                     submit_est.disabled=true
                 }
+
+                // Tasks box
+                if (tasksbox.value!="" || Date.parse(due)<now){
+                    btn_tasksbox.disabled=false
+                }
+                else{
+                    btn_tasksbox.disabled=true
+                }
             }
 
             // Update the current slider value (each time you drag the slider handle)
@@ -273,6 +287,10 @@ function details(){
 
             // EST section
             e_taskslist.addEventListener("input",function(){
+                enable_button();
+            })
+
+            tasksbox.addEventListener("input",function(){
                 enable_button();
             })
 
@@ -373,9 +391,6 @@ function details(){
             }
 
             
-
-
-            
             // Updates will only be done when the actual in_percent is more than 0
             // If the student is already contributing (means he wants to update his contribution)
             // Update the record by deleting the old one then add a new record in place
@@ -402,6 +417,29 @@ function details(){
 
     }
 
+    function update_tasksbox(){
+        let tasks_input = tasksbox.value.split(",");
+        let tasks_arr = tasks_input.map(t=>t.replaceAll(".",' ').trim()).filter(t=>t!="")
+        const batch = db.batch()
+
+        // Updates items in tasks box
+        if (tasks_arr.length>0){
+                
+            // Add new tasks into total_progress map
+            for (let i=0; i<tasks_arr.length; i++){
+                batch.update(projRef,{
+                    tasks: firebase.firestore.FieldValue.arrayUnion(tasks_arr[i]),
+                    ["total_progress." + tasks_arr[i]]: 0
+                })
+            }
+            
+            batch.commit().then(()=>{
+                window.location.reload();
+            })
+        }
+        
+    }
+
     // Create confirm box before any operation is done when submit button is clicked
     btn_submit.addEventListener("click", function(){
         const warning = confirm("You cannot edit/delete your log later!\nDo you want to submit your progress?")
@@ -415,6 +453,14 @@ function details(){
         const warning = confirm("You can still update (but NOT delete) your log later!\nDo you want to submit the data?")
         if (warning){
             update_est();
+        }
+    })
+
+    // Submit tasks box
+    btn_tasksbox.addEventListener("click", function(){
+        const warning = confirm("You cannot delete your tasks later!\nDo you want to submit the data?")
+        if (warning){
+            update_tasksbox();
         }
     })
 }
