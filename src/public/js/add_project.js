@@ -1,6 +1,7 @@
 let projects_list = [];
 let valid_members = [];
 
+// Function to enable the submit button once all fields are filled up
 function enable_button(){
   button = document.getElementById("create_button");
   let checked = false;
@@ -166,14 +167,15 @@ window.onload = function(){
 
   var firestore = firebase.firestore();
 
+  // Gets students from the database
   firestore.collection("students").orderBy("name").get().then(function(querySnapshot){
     querySnapshot.forEach(function(doc){
       if (doc.data().status == "student"){
         valid_members.push(doc.data());
       }
-
     })
   }).then(function(){
+    // Creates HTML elements using DOM
     let list = document.getElementById("members");
     for (let i = 0; i < valid_members.length; i++){
       let student_name = document.createTextNode(valid_members[i].name);
