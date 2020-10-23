@@ -565,10 +565,12 @@ function comment() {
 
 function graph(){
 
+    const bar_opacity = 0.7
+
     //Create random rgba color
     function random_rgba() {
         var o = Math.round, r = Math.random, s = 255;
-        return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 0.9 + ')';
+        return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + bar_opacity + ')';
     }
 
     // Firestore
@@ -588,22 +590,12 @@ function graph(){
             tasks = doc.data().tasks // String[]
             log = doc.data().log; // [hours,name,progress,task,time]
 
-            // chart_data = {
-            //     labels: members,
-            //     datasets: [{
-            //         type: 'bar',
-            //         label: '# hours worked for task 1',
-            //         data: [12, 19, 3, 5, 2, 3],
-            //         backgroundColor: random_rgba(),
-            //         borderColor: random_rgba().replace("0.9","1"),
-            //         borderWidth: 1
-            //     }]
-            // }
-
-            var newDataSets = []
+            //for each task, loop through each log
+            var newComparisonDataSets = [{label: "Click to remove task from chart"}]
             for(var i = 0; i < tasks.length; i++){
                 var newColor = random_rgba();
-                var newBorderColor = newColor.replace("0.9","1");
+                var newBorderColor = "rgba(0,0,0,0.7)";
+                // to modify data, add properties here
                 var newData = {
                     type: 'bar', 
                     label: '# hours worked for ' + tasks[i], 
@@ -618,60 +610,60 @@ function graph(){
                         newData.data[dataIndex] = log[j].hours
                     }
                 }
-                newDataSets.push(newData)
+                newComparisonDataSets.push(newData)
             }
 
-            chart_data = {
+            const comparison_chart_data = {
                 labels: members,
-                datasets: newDataSets
+                datasets: newComparisonDataSets
             }
-            
 
-            // chart_data = {
-            //     labels: members,
-            //     datasets: [{
-            //         type: 'bar',
-            //         label: '# hours worked for task 1',
-            //         data: [2, 1, 3, 5, 2, 3],
-            //         backgroundColor: random_rgba(),
-            //         borderColor: "black",
-            //         borderWidth: 1
-            //     },{
-            //         type: 'bar',
-            //         label: '# hours worked for task 2',
-            //         data: [3, 1, 2, 5, 2, 3],
-            //         backgroundColor: random_rgba(),
-            //         borderColor: "black",
-            //         borderWidth: 1
-            //     },{
-            //         type: 'bar',
-            //         label: '# hours worked for task 3',
-            //         data: [2, 2, 2, 5, 2, 3],
-            //         backgroundColor: random_rgba(),
-            //         borderColor: "black",
-            //         borderWidth: 1
-            //     }]
-            // }
+            const total_chart_date = {
+                labels: members,
+                datasets: newTotalDataSets
+            }
 
-            var ctx = document.getElementById('comparison_chart');
+            // To modify chart, add options here
+            const comparison_chart_options = {
+                legend: {
+                    position: 'left',
+                    align: 'start',
+                    labels: {
+                        padding: 10
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Hour spent on each task'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        stacked: true
+                    }],
+                    xAxes: [{
+                        stacked: true,
+                        barPercentage: 0.7
+                    }]
+                }
+            }
+
+            var ctx = document.getElementById('comparison_bar_chart');
             var myChart = new Chart(ctx, {
                 type: 'bar',
-                data: chart_data,
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            stacked: true
-                        }],
-                        xAxes: [{
-                            stacked: true,
-                            barPercentage: 0.7
-                        }]
-                    }
-                }
+                data: comparison_chart_data,
+                options: comparison_chart_options
             });
+
+            var cty = document.getElementById('comparison_pie_chart');
+            var myChart = new Chart(cty, {
+                type: 'pie',
+                data: comparison_chart_data,
+                options: comparison_chart_options
+            });
+
     } else{
         console.log("ERROR, Document doesn't exists")
     }
