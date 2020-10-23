@@ -65,7 +65,7 @@ function create_project(){
     if (details.tasks!=""){
       tasks = details.tasks.split(",");
       for (let i = 0; i < tasks.length; i++){
-        tasks[i] = tasks[i].trim();
+        tasks[i] = tasks[i].replaceAll(".",' ').trim();
       }
     }
     else{

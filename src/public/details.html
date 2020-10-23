@@ -112,7 +112,7 @@
     </button>
     <div class="mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title">Project Details</span>
+      <span id="project_header" class="mdl-layout-title">Project Details</span>
       <div class="mdl-layout-spacer"></div>
       <!--Display the current user -->
       <span id="displayUserUI" class="mdl-layout-title">Loading</span>
@@ -169,7 +169,7 @@
                   <!-- Default Slider -->
                   <div class="mdl-cell mdl-cell--6-col">
                     <input id="current_progress" class="mdl-slider mdl-js-slider" type="range" min="0" max="100"
-                      value="0" tabindex="0" step="5" required>
+                      value="0" tabindex="0" step="1" required>
                   </div>
                   <p id="percent"></p>
                 </div>
@@ -218,6 +218,29 @@
     <section class="mdl-layout__tab-panel" id="scroll-tab-estimation">
     
       <center>
+        <div class="mdl-cell mdl-cell--8-col">
+          <div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+            <div class="mdl-card__title1">
+            </div>
+            <div class="mdl-grid student-only admin-only">
+              <div class="mdl-cell mdl-cell--12-col">
+                <h4 style="font-weight: bold;">Add Tasks</h4>
+              </div>
+              <form action="#">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+                  <textarea class="mdl-textfield__input" type="text" rows= "3" id="tasksbox"></textarea>
+                  <label class="mdl-textfield__label" for="sample3">Tasks (separated by comma)</label>
+                </div>
+              </form>
+
+              <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdc-button mdc-button--raised" disabled
+                id="btn_tasksbox">
+                Submit
+              </button><br><br><br>
+
+            </div>
+          </div>
+        </div>
       <div class="mdl-cell mdl-cell--8-col">
         <div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
           <div class="mdl-card__title1">
@@ -237,19 +260,18 @@
               </div>
 
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">         
-                <input class="mdl-textfield__input" list="e_taskslist" name="e_tasklistname" required>
-
-                <datalist id="e_taskslist" required>
+                <select class="mdl-textfield__input" id="e_taskslist" required>
+                
                   <!--options here: I want this to be dynamic from what I received from project creation-->
-                </datalist>
+                </select>
                 <label class="mdl-textfield__label" for="e_taskslist">Task</label>
               </div>
-
+              
               <h5>Estimated Contribution (%)</h5>
               <!-- Default Slider -->
               <div class="mdl-cell mdl-cell--6-col">
                 <input id="e_current_progress" class="mdl-slider mdl-js-slider" type="range" min="0" max="100"
-                  value="0" tabindex="0" step="5" required>
+                  value="0" tabindex="0" step="1" required>
               </div>
               <p id="e_percent"></p>
             </div>
@@ -313,6 +335,6 @@
 </div>
 </body>
 <script src="js/details.js"></script>
-<script src="js/comment.js"></script>
-<!-- <script src="js/estimation.js"></script> -->
+<!-- <script src="js/comment.js"></script> -->
+
 </html>
