@@ -590,16 +590,19 @@ function graph(){
             tasks = doc.data().tasks // String[]
             log = doc.data().log; // [hours,name,progress,task,time]
 
-            //for each task, loop through each log
+            
             var newComparisonDataSets = [{label: "Click to remove task from chart"}]
+            var newTotalDataSets = []
+
+            //for each task, loop through each log
             for(var i = 0; i < tasks.length; i++){
                 var newColor = random_rgba();
                 var newBorderColor = "rgba(0,0,0,0.7)";
-                // to modify data, add properties here
-                var newData = {
+                // to modify comparison data, add properties here
+                var newComparisonData = {
                     type: 'bar', 
                     label: '# hours worked for ' + tasks[i], 
-                    data: new Array(members.length).fill(0),
+                    data: new Array(members.length).fill(0), //fill with array of 0's
                     backgroundColor: newColor,
                     borderColor: newBorderColor,
                     borderWidth: 1
@@ -607,23 +610,35 @@ function graph(){
                 for(var j = 0; j < log.length; j++){
                     if(log[j].task == tasks[i]){
                         var dataIndex = members.indexOf(log[j].id);
-                        newData.data[dataIndex] = log[j].hours
+                        newComparisonData.data[dataIndex] = log[j].hours
                     }
                 }
-                newComparisonDataSets.push(newData)
+                newComparisonDataSets.push(newComparisonData)
             }
+
+            var newTotalData = {
+                label: "total hours spent",
+                data: new Array(members.length).fill(0),
+                backgroundColor: new Array(members.length).fill('red')
+            }
+            for(var k = 0; k < log.length; k++){
+                var dataIndex = members.indexOf(log[k].id);
+                newTotalData.data[dataIndex] = newTotalData.data[dataIndex] + log[k].hours
+                newTotalData.backgroundColor[dataIndex] = random_rgba()
+            }
+            newTotalDataSets.push(newTotalData)
 
             const comparison_chart_data = {
                 labels: members,
                 datasets: newComparisonDataSets
             }
 
-            const total_chart_date = {
+            const total_chart_data = {
                 labels: members,
                 datasets: newTotalDataSets
             }
 
-            // To modify chart, add options here
+            // To modify comparison chart, add options here
             const comparison_chart_options = {
                 legend: {
                     position: 'left',
@@ -634,7 +649,8 @@ function graph(){
                 },
                 title: {
                     display: true,
-                    text: 'Hour spent on each task'
+                    text: 'Hour spent on each task',
+                    fontSize: 24
                 },
                 scales: {
                     yAxes: [{
@@ -650,18 +666,33 @@ function graph(){
                 }
             }
 
+            //To modify total chart, add options here
+            const total_chart_options = {
+                legend: {
+                    position: 'left',
+                    align: 'start',
+                    labels: {
+                        padding: 10
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Total hour spent (hrs)',
+                    fontSize: 24
+                },}
+
             var ctx = document.getElementById('comparison_bar_chart');
-            var myChart = new Chart(ctx, {
+            var myComparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: comparison_chart_data,
                 options: comparison_chart_options
             });
 
             var cty = document.getElementById('comparison_pie_chart');
-            var myChart = new Chart(cty, {
+            var myTotalChart = new Chart(cty, {
                 type: 'pie',
-                data: comparison_chart_data,
-                options: comparison_chart_options
+                data: total_chart_data,
+                options: total_chart_options
             });
 
     } else{
