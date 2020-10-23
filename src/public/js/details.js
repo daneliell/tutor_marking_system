@@ -310,6 +310,13 @@ function details(){
         let in_member = namelist.value
         let in_task = taskslist.value
 
+        // Get their email id
+        var user = firebase.auth().currentUser;
+        var uid = ""
+        if (user != null) {
+            uid = user.email.substring(0,8);
+        }
+
         // Sanitize percent inputs
         // By limiting total progress to 100, if the total exceed 100, minus the excess
         projRef.get().then(function(doc){
@@ -329,7 +336,8 @@ function details(){
                         name:in_member,
                         progress:in_percent,
                         hours:in_hours,
-                        task:in_task
+                        task:in_task,
+                        id: uid
                     }
                 )
             })
@@ -556,6 +564,13 @@ function comment() {
 }
 
 function graph(){
+
+    //Create random rgba color
+    function random_rgba() {
+        var o = Math.round, r = Math.random, s = 255;
+        return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 0.9 + ')';
+    }
+
     // Firestore
     const db = firebase.firestore()
 
@@ -568,52 +583,104 @@ function graph(){
 
     projRef.get().then(function(doc){
         if(doc.exists){
+            //Get entry values
+            members = doc.data().members // String[]
+            tasks = doc.data().tasks // String[]
+            log = doc.data().log; // [hours,name,progress,task,time]
 
-        } else{
-            console.log("ERROR, Document doesn't exists")
-        }
+            // chart_data = {
+            //     labels: members,
+            //     datasets: [{
+            //         type: 'bar',
+            //         label: '# hours worked for task 1',
+            //         data: [12, 19, 3, 5, 2, 3],
+            //         backgroundColor: random_rgba(),
+            //         borderColor: random_rgba().replace("0.9","1"),
+            //         borderWidth: 1
+            //     }]
+            // }
+
+            var newDataSets = []
+            for(var i = 0; i < tasks.length; i++){
+                var newColor = random_rgba();
+                var newBorderColor = newColor.replace("0.9","1");
+                var newData = {
+                    type: 'bar', 
+                    label: '# hours worked for ' + tasks[i], 
+                    data: new Array(members.length).fill(0),
+                    backgroundColor: newColor,
+                    borderColor: newBorderColor,
+                    borderWidth: 1
+                }
+                for(var j = 0; j < log.length; j++){
+                    if(log[j].task == tasks[i]){
+                        var dataIndex = members.indexOf(log[j].id);
+                        newData.data[dataIndex] = log[j].hours
+                    }
+                }
+                newDataSets.push(newData)
+            }
+
+            chart_data = {
+                labels: members,
+                datasets: newDataSets
+            }
+            
+
+            // chart_data = {
+            //     labels: members,
+            //     datasets: [{
+            //         type: 'bar',
+            //         label: '# hours worked for task 1',
+            //         data: [2, 1, 3, 5, 2, 3],
+            //         backgroundColor: random_rgba(),
+            //         borderColor: "black",
+            //         borderWidth: 1
+            //     },{
+            //         type: 'bar',
+            //         label: '# hours worked for task 2',
+            //         data: [3, 1, 2, 5, 2, 3],
+            //         backgroundColor: random_rgba(),
+            //         borderColor: "black",
+            //         borderWidth: 1
+            //     },{
+            //         type: 'bar',
+            //         label: '# hours worked for task 3',
+            //         data: [2, 2, 2, 5, 2, 3],
+            //         backgroundColor: random_rgba(),
+            //         borderColor: "black",
+            //         borderWidth: 1
+            //     }]
+            // }
+
+            var ctx = document.getElementById('comparison_chart');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chart_data,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            stacked: true
+                        }],
+                        xAxes: [{
+                            stacked: true,
+                            barPercentage: 0.7
+                        }]
+                    }
+                }
+            });
+    } else{
+        console.log("ERROR, Document doesn't exists")
+    }
 
     })
 
     
 
-    var ctx = document.getElementById('comparison_chart');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# hours worked',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
+    
 }
 window.onload = function(){
     details();
