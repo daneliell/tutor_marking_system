@@ -136,33 +136,35 @@ function generate_html(status)
       border.setAttribute("class", "mdl-card__actions mdl-card--border");
       border.appendChild(a);
 
-      let i_elem = document.createElement("i");
-      i_elem.setAttribute("class", "material-icons");
-      i_elem.innerHTML = "delete";
-
-      let button = document.createElement("button");
-      button.setAttribute("class","mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect");
-      button.addEventListener("click", function(){
-        const warning = confirm("This project will be deleted permanently!\nAre you sure you want to delete this project?");
-        if (warning){
-          del_item(i);
-        }
-        else{
-          console.log("Not deleted");
-        }
-      });
-      button.appendChild(i_elem);
-
-      let menu = document.createElement("div");
-      menu.setAttribute("class","mdl-card__menu");
-      menu.appendChild(button);
-
       let card = document.createElement("div");
       card.setAttribute("class", "demo-card-wide mdl-card mdl-shadow--2dp");
       card.appendChild(title);
       card.appendChild(text);
       card.appendChild(border);
-      card.appendChild(menu);
+
+      if (status == 1){
+        let i_elem = document.createElement("i");
+        i_elem.setAttribute("class", "material-icons");
+        i_elem.innerHTML = "delete";
+        
+        let button = document.createElement("button");
+        button.setAttribute("class","mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect");
+        button.addEventListener("click", function(){
+          const warning = confirm("This project will be deleted permanently!\nAre you sure you want to delete this project?");
+          if (warning){
+            del_item(i);
+          }
+          else{
+            console.log("Not deleted");
+          }
+        });
+        button.appendChild(i_elem);
+
+        let menu = document.createElement("div");
+        menu.setAttribute("class","mdl-card__menu");
+        menu.appendChild(button);
+        card.appendChild(menu);
+      }
 
       let cell = document.createElement("div");
       cell.setAttribute("class", "mdl-cell mdl-cell--4-col");
