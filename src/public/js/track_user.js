@@ -46,7 +46,6 @@ var mainApp = {};
                             var studentElements =  Array.from(document.querySelectorAll(".student-only"));
                             var i;
                             for (i = 0; i < studentElements.length; i++) {
-                                console.log(studentElements[i])
                                 studentElements[i].style.cssText = "display: inline !important";
                               }
                         } else {
