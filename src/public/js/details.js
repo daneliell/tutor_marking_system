@@ -875,7 +875,7 @@ function graph(){
                 },
                 title: {
                     display: true,
-                    text: 'Total contribution (%)',
+                    text: 'Total actual contribution (%)',
                     fontSize: 24
                 }
             }
