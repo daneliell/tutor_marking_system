@@ -7,10 +7,15 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-  <link rel="stylesheet" href="styles/style.css">
+
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet'>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+  <!--chart.js-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 
   <!--from https://material.io/develop/web/docs/getting-started-->
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -330,6 +335,31 @@
           </form>
         </div>
       </center>
+    </section>
+
+    <!--Graph section-->
+    <section class="mdl-layout__tab-panel" id="scroll-tab-graph">
+      <br><br>
+      <div style="height: 90vh;width: 120vh;margin: 0 auto;">
+      <canvas id="hour_worked_bar_chart"></canvas>
+      </div>
+      <div style="height: 90vh;width: 70%;margin: 0 auto;">
+      <canvas id="estimation_bar_chart"></canvas>
+      </div>
+
+      <div style="height: 28vh;width: 40%;margin: 0 auto;">
+      <canvas id="comparison_pie_chart"></canvas>
+      </div>
+
+      <div style="height: 10vh;width: 10%;margin: 0 auto;"></div>
+
+      <div style="height: 28vh;width: 40%;margin: 0 auto;float:left;">
+      <canvas id="est_cont_pie_chart"></canvas>
+      </div>
+      <div style="height: 28vh;width: 40%;margin: 0 auto;float:right;">
+      <canvas id="act_cont_pie_chart"></canvas>
+      </div>
+      <div style="height: 20vh;width: 40%;margin: 0 auto;float:left;"></div>
     </section>
   </main>
 </div>
