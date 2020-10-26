@@ -607,8 +607,10 @@ function graph(){
 
             //initialize data for graph
             var newHourWorkedDataSets = [{label: "Click to remove task from chart"}]
-            var newContributionDataSets = [{label: "Click to remove task from chart",hidden: true}]
-            var newTotalDataSets = []
+            var newContributionDataSets = [{label: "Click to remove member from chart",stack: 'Stack 0',}]
+            var newTotalHourWorkedDataSets = []
+            var newTotalEstimationContributionDataSets = []
+            var newTotalActualContributionDataSets = []
 
             //for each task, loop through each log
             for(var i = 0; i < tasks.length; i++){
@@ -625,12 +627,28 @@ function graph(){
                     borderColor: newBorderColor,
                     borderWidth: 1
                 }
+                for(var j = 0; j < log.length; j++){
+                    if(log[j].task == tasks[i]){
+                        // Get the member id of that log
+                        var dataIndex = members.indexOf(log[j].id);
+                        //Increase the value of the corresponding graph for that member
+                        newComparisonData.data[dataIndex] = log[j].hours
+                    }
+                }
+                newHourWorkedDataSets.push(newComparisonData)
+            }
+            
+            // for each member, get their estimation vs actual con
+            for(var i = 0; i < members.length; i++){
+                //assign random color
+                var newColor = random_rgba();
+                var newBorderColor = "rgba(0,0,0,0.7)";
                 // to modify estimation data, add properties here
                 var newEstimationData = {
                     type: 'bar', 
-                    label: '% estimated contribution ' + tasks[i], 
+                    label:  members[i] + ' estimation (%)', 
                     stack: 'Stack 0',
-                    data: new Array(members.length).fill(0), //fill with array of 0's
+                    data: new Array(tasks.length).fill(0), //fill with array of 0's
                     backgroundColor: newColor,
                     borderColor: newBorderColor,
                     borderWidth: 1
@@ -638,35 +656,34 @@ function graph(){
                 // to modify estimation data, add properties here
                 var newActualContributionData = {
                     type: 'bar', 
-                    label: '% actual contribution ' + tasks[i], 
+                    label: members[i] + ' actual (%)',
                     stack: 'Stack 1',
-                    data: new Array(members.length).fill(0), //fill with array of 0's
-                    backgroundColor: changeOpacity(newColor, 0.9),
+                    data: new Array(tasks.length).fill(0), //fill with array of 0's
+                    backgroundColor: newColor,
                     borderColor: newBorderColor,
                     borderWidth: 1,
                 }
                 for(var j = 0; j < estimate.length; j++){
-                    if(estimate[j].task == tasks[i]){
+                    if(estimate[j].id == members[i]){
                         // Get the member id of that log
-                        var dataIndex = members.indexOf(estimate[j].id);
+                        var dataIndex = tasks.indexOf(estimate[j].task);
                         //Increase the value of the corresponding graph for that member
                         newEstimationData.data[dataIndex] = estimate[j].percent
                     }
                 }
                 for(var j = 0; j < log.length; j++){
-                    if(log[j].task == tasks[i]){
+                    if(log[j].id == members[i]){
                         // Get the member id of that log
-                        var dataIndex = members.indexOf(log[j].id);
+                        var dataIndex = tasks.indexOf(log[j].task);
                         //Increase the value of the corresponding graph for that member
-                        newComparisonData.data[dataIndex] = log[j].hours
                         newActualContributionData.data[dataIndex] = log[j].progress
                     }
                 }
-                newHourWorkedDataSets.push(newComparisonData)
                 newContributionDataSets.push(newEstimationData)
                 newContributionDataSets.push(newActualContributionData)
             }
 
+            ///////////// Handle pie chart ///////////////
             var newTotalData = {
                 label: "total hours spent",
                 data: new Array(members.length).fill(0),
@@ -677,25 +694,77 @@ function graph(){
                 newTotalData.data[dataIndex] = newTotalData.data[dataIndex] + log[k].hours
                 newTotalData.backgroundColor[dataIndex] = random_rgba()
             }
-            newTotalDataSets.push(newTotalData)
+            newTotalHourWorkedDataSets.push(newTotalData)
+            
+            var newTotalEstimationContributionData = {
+                label: "total contribution",
+                data: new Array(members.length).fill(0),
+                backgroundColor: new Array(members.length).fill('red')
+            }
+            var newTotalActualContributionData = {
+                label: "total contribution",
+                data: new Array(members.length).fill(0),
+                backgroundColor: new Array(members.length).fill('red')
+            }
+            for(var j = 0; j < estimate.length; j++){
+                // Get the member id of that log
+                var dataIndex = members.indexOf(estimate[j].id);
+                //Increase the value of the corresponding graph for that member
+                newTotalEstimationContributionData.data[dataIndex] = newTotalEstimationContributionData.data[dataIndex] + estimate[j].percent
+            }
+            for(var j = 0; j < log.length; j++){
+                // Get the member id of that log
+                var dataIndex = members.indexOf(log[j].id);
+                //Increase the value of the corresponding graph for that member
+                newTotalActualContributionData.data[dataIndex] = newTotalActualContributionData.data[dataIndex] + log[j].progress
+            }
 
+            for(var i = 0; i < members.length; i++){
+                var newColor = random_rgba()
+                newTotalEstimationContributionData.backgroundColor[i] = newColor
+                newTotalActualContributionData.backgroundColor[i] = newColor
+            }
+            
+            newTotalEstimationContributionDataSets.push(newTotalEstimationContributionData)
+            newTotalActualContributionDataSets.push(newTotalActualContributionData)
+
+            // DATA SETS //
             const hour_worked_chart_data = {
                 labels: members,
                 datasets: newHourWorkedDataSets
             }
 
             const estimation_chart_data = {
-                labels: members,
+                labels: tasks,
                 datasets: newContributionDataSets
             }
 
             const total_chart_data = {
                 labels: members,
-                datasets: newTotalDataSets
+                datasets: newTotalHourWorkedDataSets
+            }
+            const total_est_chart_data = {
+                labels: members,
+                datasets: newTotalEstimationContributionDataSets
+            }
+            const total_act_chart_data = {
+                labels: members,
+                datasets: newTotalActualContributionDataSets
             }
 
+            // Change default options for ALL charts
+            Chart.helpers.merge(Chart.defaults.global.plugins.datalabels, {
+                color: 'black'
+            });
             // To modify hour worked chart, add options here
             const hour_worked_chart_options = {
+                plugins: {
+                    datalabels: {
+                        display: function(context) {
+                            return context.dataset.data[context.dataIndex] > 0; 
+                        }
+                    }
+                },
                 legend: {
                     position: 'left',
                     align: 'start',
@@ -724,14 +793,31 @@ function graph(){
 
             // To modify estimation chart, add options here
             const estimation_chart_options = {
+                plugins: {
+                    datalabels: {
+                        display: function(context) {
+                                return context.dataset.data[context.dataIndex] > 0; 
+                        },
+                        formatter: function(value, context) {
+                            return context.dataset.data[context.dataIndex];
+                        }
+                    }
+                },
                 legend: {
                     position: 'left',
                     align: 'start',
                 },
                 title: {
                     display: true,
-                    text: 'Estimation vs Actual contribution',
+                    text: ['Estimation vs Actual contribution', 'left:estimation, right:contribution'],
                     fontSize: 24
+                },layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 20,
+                        bottom: 0
+                    }
                 },
                 scales: {
                     yAxes: [{
@@ -746,11 +832,18 @@ function graph(){
                             mirror: true
                         }
                     }]
-                },
+                }
             }
 
             //To modify total chart, add options here
             const total_chart_options = {
+                plugins: {
+                    datalabels: {
+                        display: function(context) {
+                            return context.dataset.data[context.dataIndex] > 0; 
+                        }
+                    }
+                },
                 legend: {
                     position: 'left',
                     align: 'start',
@@ -764,7 +857,50 @@ function graph(){
                     fontSize: 24
                 }
             }
-
+            //To modify total actual contribution chart, add options here
+            const total_act_chart_options = {
+                plugins: {
+                    datalabels: {
+                        display: function(context) {
+                            return context.dataset.data[context.dataIndex] > 0; 
+                        }
+                    }
+                },
+                legend: {
+                    position: 'left',
+                    align: 'start',
+                    labels: {
+                        padding: 10
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Total contribution (%)',
+                    fontSize: 24
+                }
+            }
+            //To modify total estimated contribution chart, add options here
+            const total_est_chart_options = {
+                plugins: {
+                    datalabels: {
+                        display: function(context) {
+                            return context.dataset.data[context.dataIndex] > 0; 
+                        }
+                    }
+                },
+                legend: {
+                    position: 'left',
+                    align: 'start',
+                    labels: {
+                        padding: 10
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Total estimated contribution (%)',
+                    fontSize: 24
+                }
+            }
             // render the graphs
             var ctx = document.getElementById('hour_worked_bar_chart');
             var myComparisonChart = new Chart(ctx, {
@@ -785,6 +921,20 @@ function graph(){
                 type: 'pie',
                 data: total_chart_data,
                 options: total_chart_options
+            });
+
+            var cta = document.getElementById('est_cont_pie_chart');
+            var myTotalChart = new Chart(cta, {
+                type: 'pie',
+                data: total_est_chart_data,
+                options: total_est_chart_options
+            });
+
+            var ctb = document.getElementById('act_cont_pie_chart');
+            var myTotalChart = new Chart(ctb, {
+                type: 'pie',
+                data: total_act_chart_data,
+                options: total_act_chart_options
             });
 
     } else{

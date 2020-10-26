@@ -14,6 +14,8 @@
 
   <!--chart.js-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 
   <!--from https://material.io/develop/web/docs/getting-started-->
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -341,12 +343,19 @@
       <div style="height: 90vh;width: 120vh;margin: 0 auto;">
       <canvas id="hour_worked_bar_chart"></canvas>
       </div>
-      <div style="height: 90vh;width: 90vh;margin: 0 auto;">
+      <div style="height: 90vh;width: 70%;margin: 0 auto;">
       <canvas id="estimation_bar_chart"></canvas>
       </div>
-      <div style="height: 90vh;width: 90vh;margin: 0 auto;">
+      <div style="height: 50%;width: 50%;margin: 0 auto;">
       <canvas id="comparison_pie_chart"></canvas>
       </div>
+      <div style="height: 50%;width: 50%;margin: 0 auto;float:left;">
+      <canvas id="est_cont_pie_chart"></canvas>
+      </div>
+      <div style="height: 50%;width: 50%;margin: 0 auto;float:left;">
+      <canvas id="act_cont_pie_chart"></canvas>
+      </div>
+      <div style="height: 20%""><br></div>
     </section>
   </main>
 </div>
