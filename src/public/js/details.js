@@ -819,7 +819,7 @@ function graph(){
                     },
                     title: {
                         display: true,
-                        text: 'Hour spent on each task',
+                        text: 'Hour Spent on Each Task',
                         fontSize: 24
                     },
                     scales: {
@@ -854,7 +854,7 @@ function graph(){
                     },
                     title: {
                         display: true,
-                        text: ['Estimation vs Actual contribution', 'left:estimation, right:contribution'],
+                        text: ['Estimated Contribution vs Actual Contribution', 'Left: Estimation, Right: Actual Contribution'],
                         fontSize: 24
                     },layout: {
                         padding: {
@@ -898,7 +898,7 @@ function graph(){
                     },
                     title: {
                         display: true,
-                        text: 'Total hour spent (hrs)',
+                        text: 'Total Hour Spent (hours)',
                         fontSize: 24
                     }
                 }
@@ -920,7 +920,7 @@ function graph(){
                     },
                     title: {
                         display: true,
-                        text: 'Total actual contribution (%)',
+                        text: 'Total Actual Contribution (%)',
                         fontSize: 24
                     }
                 }
@@ -942,7 +942,7 @@ function graph(){
                     },
                     title: {
                         display: true,
-                        text: 'Total estimated contribution (%)',
+                        text: 'Total Estimated Contribution (%)',
                         fontSize: 24
                     }
                 }
