@@ -42,22 +42,22 @@ function details(){
             let members = doc.data().members
 
             // EST section: Puts student list as option for every member except lecturer/owner
-            for (m in members){
-                let studentDoc = db.collection("students").doc(members[m])
-                studentDoc.get().then(function(doc){
-                    if (doc.data().status!="lecturer"){
-                        const newOption = document.createElement('option');
-                        const optionText = document.createTextNode(doc.data().name);
-                        // set option text
-                        newOption.appendChild(optionText);
-                        // and option value
-                        newOption.setAttribute('value',doc.data().name);
-                        // add the option to the select box
-                        e_namelist.appendChild(newOption);
-                    }
-                })
+            // for (m in members){
+            //     let studentDoc = db.collection("students").doc(members[m])
+            //     studentDoc.get().then(function(doc){
+            //         if (doc.data().status!="lecturer"){
+            //             const newOption = document.createElement('option');
+            //             const optionText = document.createTextNode(doc.data().name);
+            //             // set option text
+            //             newOption.appendChild(optionText);
+            //             // and option value
+            //             newOption.setAttribute('value',doc.data().name);
+            //             // add the option to the select box
+            //             e_namelist.appendChild(newOption);
+            //         }
+            //     })
                 
-            }
+            // }
             
             // LOG section: Puts student list as option for every member except lecturer/owner
             firebase.auth().onAuthStateChanged(function(user) {
@@ -79,6 +79,29 @@ function details(){
                         newOption.setAttribute('value',doc.data().name);
                         // add the option to the select box
                         namelist.appendChild(newOption);
+                    })
+                }
+            });
+
+            firebase.auth().onAuthStateChanged(function(user) {
+                const id = user.email.substring(0,8)
+                if (members.includes(id)){
+                    members = [id]
+                }
+                else{
+                    console.log("Are you an admin?")
+                }
+                for (m in members){
+                    let studentDoc = db.collection("students").doc(members[m])
+                    studentDoc.get().then(function(doc){
+                        const newOption = document.createElement('option');
+                        const optionText = document.createTextNode(doc.data().name);
+                        // set option text
+                        newOption.appendChild(optionText);
+                        // and option value
+                        newOption.setAttribute('value',doc.data().name);
+                        // add the option to the select box
+                        e_namelist.appendChild(newOption);
                     })
                 }
             });
@@ -661,7 +684,7 @@ function graph(){
                             // Get the member id of that log
                             var dataIndex = members.indexOf(log[j].id);
                             //Increase the value of the corresponding graph for that member
-                            newComparisonData.data[dataIndex] = log[j].hours
+                            newComparisonData.data[dataIndex] = newComparisonData.data[dataIndex] + log[j].hours
                         }
                     }
                     newHourWorkedDataSets.push(newComparisonData)
@@ -697,7 +720,7 @@ function graph(){
                             // Get the member id of that log
                             var dataIndex = tasks.indexOf(estimate[j].task);
                             //Increase the value of the corresponding graph for that member
-                            newEstimationData.data[dataIndex] = estimate[j].percent
+                            newEstimationData.data[dataIndex] = newEstimationData.data[dataIndex] + estimate[j].percent
                         }
                     }
                     for(var j = 0; j < log.length; j++){
@@ -705,7 +728,7 @@ function graph(){
                             // Get the member id of that log
                             var dataIndex = tasks.indexOf(log[j].task);
                             //Increase the value of the corresponding graph for that member
-                            newActualContributionData.data[dataIndex] = log[j].progress
+                            newActualContributionData.data[dataIndex] = newActualContributionData.data[dataIndex] + log[j].progress
                         }
                     }
                     newContributionDataSets.push(newEstimationData)
@@ -758,10 +781,13 @@ function graph(){
                     return total + num;
                 }
                 function getAverageEstimation(num){
-                    return num/totalEstimationPercentage*100;
+                    return roundTwoDecimal(num/totalEstimationPercentage*100);
                 }
                 function getAverageActual(num){
-                    return num/totalActualPercentage*100;
+                    return roundTwoDecimal(num/totalActualPercentage*100);
+                }
+                function roundTwoDecimal(num){
+                    return (Math.round(num * 100) / 100).toFixed(2).replace(".00","")
                 }
 
                 var totalEstimationPercentage = newTotalEstimationContributionData.data.reduce(sum)
