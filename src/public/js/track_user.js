@@ -9,7 +9,7 @@ var mainApp = {};
             // User is signed in.
             userId = user;
 
-            const 
+            const
                 displayUserUI = document.getElementById("displayUserUI"),
                 docID = user.email.substr(0, 8),
                 db = firebase.firestore(),
@@ -25,7 +25,7 @@ var mainApp = {};
 
                         if(status == "lecturer") {displayStatus = "L"} else if(status == "student") {displayStatus = "S"} else if(status == "administrator") {displayStatus = "A"}
                         displayUserUI.textContent = displayUserUI.textContent + String(" (" + displayStatus + ")")
-                        
+
                         // Show items depending of status
                         if(status == "lecturer"){
                             var lecturerElements = Array.from(document.querySelectorAll(".lect-only"));
